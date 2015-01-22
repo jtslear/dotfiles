@@ -1,7 +1,7 @@
 [init]
   templatedir = ~/.git_template
 [push]
-  default = current
+  default = simple
 [color]
   ui = auto
 [alias]
@@ -9,9 +9,17 @@
   ap = add --patch
   branches = for-each-ref --sort=-committerdate --format=\"%(color:blue)%(authordate:relative)\t%(color:red)%(authorname)\t%(color:white)%(color:bold)%(refname:short)\" refs/remotes
   ci = commit -v
+  ca = commit --amend
   co = checkout
   pf = push --force-with-lease
   st = status
+  up = !git fetch origin && git rebase origin/master
+  br = branch
+  d = diff
+  dc = diff --cached
+  la = config --get-regexp alias
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
+  lga = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit --all
 [core]
   excludesfile = ~/.gitignore
   autocrlf = input
@@ -26,5 +34,5 @@
 [include]
   path = ~/.gitconfig.local
 [user]
-	name = John T Skarbek
-	email = jtslear@gmail.com
+  name = John T Skarbek
+  email = jtslear@gmail.com

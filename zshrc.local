@@ -1,0 +1,74 @@
+# Path to your oh-my-zsh configuration.
+ZSH=$HOME/.oh-my-zsh
+
+# Path to zsh customizations
+export ZSH_CUSTOM=$HOME/.oh-my-zsh-custom
+
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# time that oh-my-zsh is loaded.
+#export ZSH_THEME="git-taculous"
+export ZSH_THEME="kolo"
+
+# Set to this to use case-sensitive completion
+# CASE_SENSITIVE="true"
+
+# Comment this out to disable bi-weekly auto-update checks
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment to change how many often would you like to wait before auto-updates occur? (in days)
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment to disable ZSH auto correction for commands (correct) and command arguments (correct_all)
+# unsetopt correct
+# unsetopt correct_all
+
+# Uncomment following line if you want to disable colors in ls
+# DISABLE_LS_COLORS="true"
+
+# Uncomment following line if you want to disable autosetting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment following line if you want red dots to be displayed while waiting for completion
+export COMPLETION_WAITING_DOTS="true"
+
+# Automatically quote globs in URL and remote references
+# http://superuser.com/questions/420525/scp-with-zsh-no-matches-found
+__remote_commands=(scp rsync)
+autoload -U url-quote-magic
+zle -N self-insert url-quote-magic
+zstyle -e :urlglobber url-other-schema '[[ $__remote_commands[(i)$words[1]] -le ${#__remote_commands} ]] && reply=("*") || reply=(http https ftp)'
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+#plugins=(java alm appsdk bundler git)
+plugins=(aws appsdk battery brew bundler colored-man common-aliases docker git lol rbenv osx npm nyan ssh-agent tmux vagrant)
+
+source "$ZSH"/oh-my-zsh.sh
+source /Users/jskarbek/bin/composure.sh
+
+# Customize to your needs...
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+export EDITOR=vim
+source ~/.aws_creds
+
+# http://docs.aws.amazon.com/general/latest/gr/rande.html
+# elastic beanstalk install location
+AWS_EBS="$HOME/Downloads/AWS-ElasticBeanstalk-CLI-2.6.3/eb/macosx/python2.7"
+#export JAVA_HOME=$(/usr/libexec/java_home)
+export EC2_HOME="$HOME/Downloads/ec2-api-tools-1.7.1.0"
+export EC2_URL="https://ec2.us-west-2.amazonaws.com"
+export AWS_ELB_HOME="$HOME/Downloads/ElasticLoadBalancing-1.0.35.0"
+export AWS_ELB_URL=https://elasticloadbalancing.us-west-2.amazonaws.com
+export PATH=$AWS_ELB_HOME/bin:$AWS_EBS:$EC2_HOME/bin:$PATH
+export AWS_CREDENTIAL_FILE=~/.aws_creds
+export MAGICK_HOME="$HOME/Downloads/ImageMagick-6.9.0"
+export DYLD_LIBRARY_PATH="$MAGICK_HOME/lib/"
+export PATH="$MAGICK_HOME/bin:$PATH"
+unset LSCOLORS
+
+awesome() {
+ echo "DAMN RHYTE YOU ARE AWESOME"
+}
