@@ -1,0 +1,2 @@
+" Define bundles via Github repos
+Plugin 'tpope/vim-markdown'
