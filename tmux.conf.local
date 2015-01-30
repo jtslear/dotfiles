@@ -1,0 +1,68 @@
+# improve colors
+set-option -g status-utf8 on
+set-option -g terminal-overrides 'xterm*:smcup@:rmcup@'
+
+set-option -g mode-mouse on
+
+# act like vim
+set-option -g mode-keys vi
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+bind-key -r C-h select-window -t :-
+bind-key -r C-l select-window -t :+
+# Setup 'v' to begin selection as in Vim
+bind-key -t vi-copy v begin-selection
+bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
+
+# act like GNU screen
+unbind C-b
+set-option -g prefix C-a
+
+# start window numbers at 1 to match keyboard order with tmux window order
+set-option -g base-index 1
+
+# renumber windows sequentially after closing any of them
+set-option -g renumber-windows on
+
+# increase scrollback lines
+set-option -g history-limit 10000
+
+#add logical splits
+bind | split-window -h
+bind \ split-window -h
+bind - split-window -v
+bind _ split-window -v
+
+# cycle through panes
+unbind ^A
+bind ^A select-pane -t :.+
+
+#resize panes with arrow keys
+unbind Right
+bind Right resize-pane -R 10
+unbind Left
+bind Left resize-pane -L 10
+unbind Up
+bind Up resize-pane -U 6
+unbind Down
+bind Down resize-pane -D 6
+
+#staus bars
+set-option -g status on
+# example output: 20130615 17:33 || 0.45 || 88%
+set-option -g status-right "%Y%m%d %H:%M || #(~/.get_load_shortie.sh) || #(bin/battery)"
+
+# Utilize R to reload the config file
+bind R source-file ~/.tmux.conf \; display-message "Config reloaded..."
+
+set-option -g default-shell /bin/zsh
+set-option -g destroy-unattached off
+set-option -g mouse-resize-pane on
+set-option -g mouse-select-pane on
+set-option -g mouse-select-window on
+set-option -g mouse-utf8 on
+set-option -g set-titles
+set-window-option -g automatic-rename off
+set-window-option -g monitor-activity on
