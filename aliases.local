@@ -2,6 +2,6 @@ alias be='bundle exec'
 alias ls="ls -lahG"
 alias gcm="git commit -m "
 alias gaa="git add -A"
-alias gc="git commit"
+alias gc="git commit --verbose"
 alias gs="git status"
 alias tsm="tmate show-message"
