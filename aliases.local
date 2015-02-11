@@ -5,3 +5,5 @@ alias gaa="git add -A"
 alias gc="git commit --verbose"
 alias gs="git status"
 alias tsm="tmate show-message"
+
+eval "$(gh alias -s)"
