@@ -111,3 +111,8 @@ saws ()
       fi
     fi
 }
+
+cl ()
+{
+  awk -v col=$1 '{print $col}'
+}
