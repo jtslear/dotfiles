@@ -1,2 +1,3 @@
 set swapfile
 set scrolloff=4
+set textwidth=0
