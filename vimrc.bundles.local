@@ -1,4 +1,4 @@
 " Define bundles via Github repos
-Plugin 'tpope/vim-markdown'
-Plugin 'scrooloose/nerdtree'
-Plugin 'elixir-lang/vim-elixir'
+Plug 'tpope/vim-markdown'
+Plug 'scrooloose/nerdtree'
+Plug 'elixir-lang/vim-elixir'
