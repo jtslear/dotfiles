@@ -1,0 +1,16 @@
+#!/bin/sh
+
+brew_tap 'caskroom/cask'
+brew_install_or_upgrade 'brew-cask'
+
+brew cask install google-chrome
+
+brew tap nviennot/tmate && brew install tmate
+
+brew_install_or_upgrade csshx
+brew_install_or_upgrade elixir
+brew_install_or_upgrade haproxy
+brew_install_or_upgrade mongodb
+brew_install_or_upgrade node010
+brew_install_or_upgrade phantomjs
+brew_install_or_upgrade sl
