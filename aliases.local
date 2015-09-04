@@ -3,6 +3,7 @@ alias ls="ls -lahG"
 alias gcm="git commit -m "
 alias gaa="git add -A"
 alias gc="git commit --verbose"
+alias gpr="git pull-request"
 alias gs="git status"
 alias tsm="tmate show-message"
 

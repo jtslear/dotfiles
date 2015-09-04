@@ -75,22 +75,54 @@ zstyle ':vcs_info:*' unstagedstr '%F{yellow}●'
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{11}%r'
 zstyle ':vcs_info:*' enable git svn
-theme_precmd () {
-    if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null) ]] {
-        zstyle ':vcs_info:*' formats ' %b%c%u%B%F{green}'
-    } else {
-        zstyle ':vcs_info:*' formats ' %b%c%u%B%F{red}●%F{green}'
-    }
 
-    vcs_info
+theme_precmd () {
+  if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null) ]] {
+      zstyle ':vcs_info:*' formats ' %b%c%u%B%F{green}'
+  } else {
+      zstyle ':vcs_info:*' formats ' %b%c%u%B%F{red}●%F{green}'
+  }
+
+  vcs_info
+}
+
+start_time=$SECONDS
+function prompt_paradox_preexec {
+  start_time=$SECONDS
+}
+
+time_precmd () {
+  timer_result=$(($SECONDS-$start_time))
+  if [[ $timer_result -gt 5 ]]; then
+    calc_elapsed_time
+  else
+    unset timer_result
+  fi
+  start_time=$SECONDS
+}
+
+calc_elapsed_time () {
+  if [[ $timer_result -ge 3600 ]]; then
+    let "timer_hours = $timer_result / 3600"
+    let "remainder = $timer_result % 3600"
+    let "timer_minutes = $remainder / 60"
+    let "timer_seconds = $remainder % 60"
+    timer_result="${timer_hours}h${timer_minutes}m${timer_seconds}s"
+  elif [[ $timer_result -ge 60 ]]; then
+    let "timer_minutes = $timer_result / 60"
+    let "timer_seconds = $timer_result % 60"
+    timer_result="${timer_minutes}m${timer_seconds}s"
+  else
+    timer_result="${timer_result}s"
+  fi
 }
 
 setopt prompt_subst
-#PROMPT='%B%F{magenta}%c%B%F{green}${vcs_info_msg_0_}%B%F{magenta} %{$reset_color%}%% '
-PROMPT='${SSH_CONNECTION+"%{$fg_bold[green]%}%n@%m:"}%{$fg_bold[blue]%}%c%{$reset_color%}%B%F{green}${vcs_info_msg_0_}%B%F{magenta} %{$reset_color%}%% '
+PROMPT='%F{cyan}${timer_result} %{$fg_bold[blue]%}%c%{$reset_color%}%B%F{green}${vcs_info_msg_0_}%B%F{magenta} %{$reset_color%}%% '
 
 autoload -U add-zsh-hook
 add-zsh-hook precmd  theme_precmd
+add-zsh-hook precmd  time_precmd
 
 saws ()
 {
