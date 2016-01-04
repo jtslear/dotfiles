@@ -41,6 +41,8 @@ plugins=(brew bundler colored-man common-aliases docker git lol rbenv osx npm ny
 
 source "$ZSH"/oh-my-zsh.sh
 
+unsetopt share_history
+
 # Customize to your needs...
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 export EDITOR=vim
@@ -57,8 +59,9 @@ export AWS_ELB_URL=https://elasticloadbalancing.us-west-2.amazonaws.com
 export PATH=$AWS_ELB_HOME/bin:$AWS_EBS:$EC2_HOME/bin:$PATH
 export AWS_CREDENTIAL_FILE=~/.aws_creds
 export PATH="$MAGICK_HOME/bin:$PATH"
-export PATH=$PATH:/usr/local/opt/go/libexec/bin
-export GOPATH=/usr/local/opt/go
+export PATH=$PATH:/Applications/VMware\ OVF\ Tool
+export GOPATH=$HOME/projects
+export PATH=$PATH:$GOPATH/bin
 unset LSCOLORS
 
 awesome() {
@@ -147,4 +150,46 @@ saws ()
 cl ()
 {
   awk -v col=$1 '{print $col}'
+}
+
+idunno()
+{
+  echo -n "¯\_(ツ)_/¯" | pbcopy
+  echo "¯\_(ツ)_/¯"
+}
+
+fixbrew ()
+{
+
+  dir_path=('/usr/local' '/usr/local/bin' '/usr/local/etc' '/usr/local/sbin' '/usr/local/share' '/usr/local/share/man' '/usr/local/share/man/man1')
+  for i in $dir_path
+  do
+    sudo chown jskarbek $dir_path
+  done
+}
+
+fixaudio ()
+{
+   sudo kill -9 `ps ax|grep 'coreaudio[a-z]' | awk '{print $1}'`
+}
+
+fixvolume ()
+{
+  osascript -e "set volume input volume 100"
+}
+
+wtf () {
+  cat << EOF
+(ノ ゜Д゜)ノ ︵ ┻━┻
+CTRL + Q - binding for tmux
+CTRL + U – Cuts text up until the cursor
+CTRL + K – Cuts text from the cursor until the end of the line
+CTRL + Y – Pastes text
+CTRL + E – Move cursor to end of line
+CTRL + A – Move cursor to the beginning of the line
+ALT + F – Jump forward to next space
+ALT + B – Skip back to previous space
+ALT + Backspace – Delete previous word
+CTRL + W – Cut word behind cursor
+EOF
 }

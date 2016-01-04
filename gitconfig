@@ -41,3 +41,7 @@
 [user]
   name = John T Skarbek
   email = jtslear@gmail.com
+[github]
+	user = jtslear
+[ghi]
+	token = !security find-internet-password -a jtslear -s github.com -l 'ghi token' -w
