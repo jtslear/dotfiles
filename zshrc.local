@@ -64,6 +64,8 @@ export GOPATH=$HOME/projects
 export PATH=$PATH:$GOPATH/bin
 unset LSCOLORS
 
+source /usr/local/share/zsh/site-functions/_aws
+
 awesome() {
  echo "DAMN RHYTE YOU ARE AWESOME"
 }
