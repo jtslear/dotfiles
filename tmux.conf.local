@@ -2,7 +2,9 @@
 set-option -g status-utf8 on
 set-option -g terminal-overrides 'xterm*:smcup@:rmcup@'
 
-set-option -g mode-mouse on
+set -g mouse on
+bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"
+bind -n WheelDownPane select-pane -t= \; send-keys -M
 
 # act like vim
 set-option -g mode-keys vi
@@ -11,8 +13,9 @@ bind j select-pane -D
 bind k select-pane -U
 bind l select-pane -R
 # Setup 'v' to begin selection as in Vim
-bind-key -t vi-copy v begin-selection
-bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
+bind-key -t vi-copy 'v' begin-selection
+bind-key -t vi-copy 'y' copy-pipe "pbcopy"
+bind p paste-buffer
 
 # set sync on and off
 bind S set synchronize-panes on
@@ -56,9 +59,6 @@ bind R source-file ~/.tmux.conf \; display-message "Config reloaded..."
 
 set-option -g default-shell /bin/zsh
 set-option -g destroy-unattached off
-set-option -g mouse-resize-pane on
-set-option -g mouse-select-pane on
-set-option -g mouse-select-window on
 set-option -g mouse-utf8 on
 set-option -g set-titles
 set-window-option -g automatic-rename off
