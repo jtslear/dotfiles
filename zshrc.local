@@ -181,6 +181,16 @@ fixvolume ()
   osascript -e "set volume input volume 100"
 }
 
+reked ()
+{
+  docker ps --filter status=exited --quiet | xargs docker rm -f
+}
+
+riked ()
+{
+  docker images | grep none | awk {'print $3'} | xargs docker rmi
+}
+
 wtf () {
   cat << EOF
 (ノ ゜Д゜)ノ ︵ ┻━┻
