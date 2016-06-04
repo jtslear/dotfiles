@@ -1,5 +1,3 @@
 set swapfile
 set scrolloff=4
 set textwidth=0
-"set rtp+=$GOPATH/src/github.com/golang/lint/misc/vim
-"utocmd BufWritePost,FileWritePost *.go execute 'Lint' | cwindow
