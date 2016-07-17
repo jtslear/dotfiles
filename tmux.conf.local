@@ -51,7 +51,7 @@ bind Down resize-pane -D 6
 #staus bars
 set-option -g status on
 # example output: 20130615 17:33 || 0.45 || 88%
-set-option -g status-right "%Y%m%d %H:%M:%S || #(~/dotfiles/battery.sh Discharging; ~/dotfiles/battery.sh Charging)"
+set-option -g status-right "%Y%m%d %H:%M:%S || #(~/.battery.sh Discharging; ~/.battery.sh Charging)"
 
 # Utilize R to reload the config file
 bind R source-file ~/.tmux.conf \; display-message "Config reloaded..."
