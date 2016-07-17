@@ -1,16 +1,15 @@
 #!/bin/sh
 
-brew_tap 'caskroom/cask'
-brew_install_or_upgrade 'brew-cask'
+if [[ "$SHELL" != $(which zsh) ]]; then
+  echo "changing ${SHELL}"
+  #chsh -s $(which zsh)
+fi
 
-brew cask install google-chrome
+brew tap thoughtbot/formulae && brew install rcm
 
-brew tap nviennot/tmate && brew install tmate
-
-brew_install_or_upgrade csshx
-brew_install_or_upgrade elixir
-brew_install_or_upgrade haproxy
-brew_install_or_upgrade mongodb
-brew_install_or_upgrade node010
-brew_install_or_upgrade phantomjs
-brew_install_or_upgrade sl
+brew install elixir
+brew install gh
+brew install golang
+brew install gpg
+brew install sl
+brew install tmux
