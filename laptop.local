@@ -11,5 +11,6 @@ brew install elixir
 brew install gh
 brew install golang
 brew install gpg
+brew install nmap
 brew install sl
 brew install tmux
