@@ -14,3 +14,4 @@ brew install gpg
 brew install nmap
 brew install sl
 brew install tmux
+brew install tree
