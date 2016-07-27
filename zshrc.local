@@ -212,3 +212,7 @@ ALT + Backspace – Delete previous word
 CTRL + W – Cut word behind cursor
 EOF
 }
+
+notify () {
+  pusher -i 2093 DONE
+}
