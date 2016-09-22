@@ -216,3 +216,7 @@ EOF
 notify () {
   pusher -i 2093 DONE
 }
+
+if [ -e ~/.waffle.env ]; then
+  source ~/.waffle.env
+fi
