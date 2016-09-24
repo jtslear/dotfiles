@@ -13,5 +13,6 @@ brew install golang
 brew install gpg
 brew install nmap
 brew install sl
+brew install socat
 brew install tmux
 brew install tree
