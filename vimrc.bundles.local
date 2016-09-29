@@ -2,4 +2,3 @@
 Plug 'tpope/vim-markdown'
 Plug 'elixir-lang/vim-elixir'
 Plug 'tpope/vim-surround'
-Plug 'fatih/vim-go'
