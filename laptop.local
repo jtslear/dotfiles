@@ -7,12 +7,16 @@ fi
 
 brew tap thoughtbot/formulae && brew install rcm
 
-brew install elixir
-brew install gh
-brew install golang
-brew install gpg
-brew install nmap
-brew install sl
-brew install socat
-brew install tmux
-brew install tree
+brew install \
+  elixir \
+  gh \
+  golang \
+  gnupg \
+  gpg-agent \
+  gpg \
+  nmap \
+  pinentry-mac \
+  sl \
+  socat \
+  tmux \
+  tree
