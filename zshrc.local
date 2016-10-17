@@ -138,18 +138,14 @@ add-zsh-hook precmd  time_precmd
 saws ()
 {
     if [[ $@ == '' ]]; then
-      ls -lh ~/.aws/config
       ls -lh ~/.aws_creds
     else
-      if [[ -e ~/.aws/.aws_creds.$1 && -e ~/.aws_creds.$1 ]]; then
-        rm -rf ~/.aws/config && ln -s ~/.aws/.aws_creds.$1 ~/.aws/config;
+      if [[ -e ~/.aws_creds.$1 ]]; then
         rm -rf ~/.aws_creds && ln -s ~/.aws_creds.$1 ~/.aws_creds;
-        ls -lh ~/.aws/config
         ls -lh ~/.aws_creds
         source ~/.aws_creds
       else
         echo "~/.aws/.aws_creds.$1 or ~/.aws_creds $1 Not Found.  Not changing."
-        ls -lh ~/.aws/config
         ls -lh ~/.aws_creds
       fi
     fi
