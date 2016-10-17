@@ -2,3 +2,5 @@
 Plug 'tpope/vim-markdown'
 Plug 'elixir-lang/vim-elixir'
 Plug 'tpope/vim-surround'
+Plug 'leafgarland/typescript-vim'
+Plug 'Quramy/tsuquyomi'
