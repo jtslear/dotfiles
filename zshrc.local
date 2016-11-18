@@ -37,7 +37,7 @@ zstyle -e :urlglobber url-other-schema '[[ $__remote_commands[(i)$words[1]] -le 
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 #plugins=(java alm appsdk bundler git)
-plugins=(brew bundler colored-man common-aliases docker git lol rbenv osx npm nyan tmux vagrant)
+plugins=(colored-man common-aliases docker osx)
 
 if [ -e "$ZSH/oh-my-zsh.sh" ]; then
   source "$ZSH"/oh-my-zsh.sh
@@ -160,16 +160,6 @@ idunno()
 {
   echo -n "¯\_(ツ)_/¯" | pbcopy
   echo "¯\_(ツ)_/¯"
-}
-
-fixbrew ()
-{
-
-  dir_path=('/usr/local' '/usr/local/bin' '/usr/local/etc' '/usr/local/sbin' '/usr/local/share' '/usr/local/share/man' '/usr/local/share/man/man1')
-  for i in $dir_path
-  do
-    sudo chown jskarbek $dir_path
-  done
 }
 
 fixaudio ()
