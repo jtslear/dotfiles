@@ -9,11 +9,11 @@ brew tap thoughtbot/formulae && brew install rcm
 
 brew install \
   elixir \
-  gh \
-  golang \
   gnupg \
-  gpg-agent \
+  golang \
   gpg \
+  gpg-agent \
+  hub \
   nmap \
   pinentry-mac \
   sl \

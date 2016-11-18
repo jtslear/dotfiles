@@ -8,4 +8,4 @@ alias gpr="git pull-request"
 alias gs="git status"
 alias tsm="tmate show-message"
 
-eval "$(gh alias -s)"
+eval "$(hub alias -s)"
