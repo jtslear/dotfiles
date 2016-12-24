@@ -9,3 +9,7 @@ alias gs="git status"
 alias tsm="tmate show-message"
 
 eval "$(hub alias -s)"
+
+if type nvim > /dev/null 2>&1; then
+  alias vim='nvim'
+fi
