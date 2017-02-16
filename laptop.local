@@ -1,5 +1,15 @@
 #!/bin/bash
 
+if [[ "$OSTYPE" != "darwin"* ]]; then
+  echo "SILLY GUY, this script works only on OSX"
+  exit 1
+fi
+
+if [[ ! $(type brew) ]]; then
+  echo "Installing brew..."
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
 if [[ "$SHELL" != $(which zsh) ]]; then
   echo "changing ${SHELL}"
   chsh -s $(which zsh)
@@ -14,12 +24,21 @@ if [ ! -e $TB_DOTFILES ]; then
   git clone https://github.com/thoughtbot/dotfiles.git $TB_DOTFILES
 fi
 
+pushd $TB_DOTFILES
+git pull
+popd
+
+pushd $MY_DOTFILES
+git pull
+popd
+
 rcup -d $TB_DOTFILES -x gitconfig -x README.md -x LICENSE -x Brewfile -x rcrc
 rcup -f -d $MY_DOTFILES -x README.md -x Brewfile -x install -x laptop.local
 
 ln -s ~/.vim ~/.config/nvim
 ln -s ~/.vimrc ~/.config/nvim/init.vim
 
+brew update
 brew install reattach-to-user-namespace --wrap-pbcopy-and-pbpaste
 brew install \
   elixir \
@@ -35,3 +54,5 @@ brew install \
   socat \
   tmux \
   tree
+
+brew upgrade
