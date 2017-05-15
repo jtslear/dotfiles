@@ -41,6 +41,8 @@ ln -s ~/.vimrc ~/.config/nvim/init.vim
 brew update
 brew install reattach-to-user-namespace --wrap-pbcopy-and-pbpaste
 brew install \
+  aws-cli \
+  bash-completion \
   elixir \
   gnupg \
   golang \

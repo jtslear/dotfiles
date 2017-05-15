@@ -4,6 +4,10 @@ ZSH=$HOME/.oh-my-zsh
 # Path to zsh customizations
 export ZSH_CUSTOM=$HOME/.oh-my-zsh-custom
 
+autoload bashcompinit
+bashcompinit
+source $(brew --prefix)/etc/bash_completion
+
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
 
@@ -144,6 +148,11 @@ saws ()
         rm -rf ~/.aws_creds && ln -s ~/.aws_creds.$1 ~/.aws_creds;
         ls -lh ~/.aws_creds
         source ~/.aws_creds
+        set -x
+        declare -r the_key=$(grep AWS_ACCESS_KEY= ~/.aws_creds | cut -d= -f2)
+        declare -r the_secret=$(grep AWS_SECRET_KEY= ~/.aws_creds | cut -d= -f2)
+        sed -i -e "s/aws_access_key_id\ =\ .*/aws_access_key_id\ =\ ${the_key}/" ~/.aws/credentials
+        sed -i -e "s/aws_secret_access_key\ =\ .*/aws_secret_access_key\ =\ ${the_secret}/" ~/.aws/credentials
       else
         echo "~/.aws/.aws_creds.$1 or ~/.aws_creds $1 Not Found.  Not changing."
         ls -lh ~/.aws_creds
@@ -215,3 +224,9 @@ if [ -f ~/.gnupg/.gpg-agent-info ] && [ -n "$(pgrep gpg-agent)" ]; then
 else
   eval $(gpg-agent --daemon --write-env-file ~/.gnupg/.gpg-agent-info)
 fi
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/skajo02/Downloads/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/skajo02/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/skajo02/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/skajo02/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
