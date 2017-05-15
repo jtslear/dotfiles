@@ -12,8 +12,8 @@ bind j select-pane -D
 bind k select-pane -U
 bind l select-pane -R
 # Setup 'v' to begin selection as in Vim
-bind-key -t vi-copy 'v' begin-selection
-bind-key -t vi-copy 'y' copy-pipe "pbcopy"
+bind-key -T copy-mode-vi v send-keys -X begin-selection
+bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
 bind p paste-buffer
 
 # set sync on and off
