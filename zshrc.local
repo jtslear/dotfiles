@@ -47,14 +47,11 @@ unsetopt share_history
 
 # Customize to your needs...
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-export EDITOR=vim
-if [ -e ~/.aws_creds ]; then
-  source ~/.aws_creds
-fi
 
-export AWS_CREDENTIAL_FILE=~/.aws_creds
-export PATH="$MAGICK_HOME/bin:$PATH"
-export PATH=$PATH:/Applications/VMware\ OVF\ Tool
+fpath=(/usr/local/share/zsh-completions $fpath)
+
+export EDITOR=vim
+
 export GOPATH=$HOME/projects
 export PATH=$PATH:$GOPATH/bin
 unset LSCOLORS
@@ -126,27 +123,6 @@ autoload -U add-zsh-hook
 add-zsh-hook precmd  theme_precmd
 add-zsh-hook precmd  time_precmd
 
-saws ()
-{
-    if [[ $@ == '' ]]; then
-      ls -lh ~/.aws_creds
-    else
-      if [[ -e ~/.aws_creds.$1 ]]; then
-        rm -rf ~/.aws_creds && ln -s ~/.aws_creds.$1 ~/.aws_creds;
-        ls -lh ~/.aws_creds
-        source ~/.aws_creds
-        set -x
-        declare -r the_key=$(grep AWS_ACCESS_KEY= ~/.aws_creds | cut -d= -f2)
-        declare -r the_secret=$(grep AWS_SECRET_KEY= ~/.aws_creds | cut -d= -f2)
-        sed -i -e "s/aws_access_key_id\ =\ .*/aws_access_key_id\ =\ ${the_key}/" ~/.aws/credentials
-        sed -i -e "s/aws_secret_access_key\ =\ .*/aws_secret_access_key\ =\ ${the_secret}/" ~/.aws/credentials
-      else
-        echo "~/.aws/.aws_creds.$1 or ~/.aws_creds $1 Not Found.  Not changing."
-        ls -lh ~/.aws_creds
-      fi
-    fi
-}
-
 cl ()
 {
   awk -v col=$1 '{print $col}'
@@ -215,7 +191,17 @@ fi
 source <(kubectl completion zsh)
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/skajo02/Downloads/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/skajo02/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/Users/skajo02/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/skajo02/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/skajo02/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/skajo02/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '/Users/skajo02/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/skajo02/google-cloud-sdk/completion.zsh.inc'; fi
+
+fuckincpuhog () {
+  output=$(ps -e -o pid,pri,pcpu,comm | grep -i vshield)
+  echo ${output}
+  process_count=$(ps -e -o pid,comm | grep -i vshield | wc -l)
+  echo "Processes Found: ${process_count}"
+  ps -e -o pid,comm | grep -i vshield | grep -v grep | awk {'print $1'} | xargs sudo renice 20
+  output=$(ps -e -o pid,pri,pcpu,comm | grep -i vshield)
+  echo ${output}
+}
