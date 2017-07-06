@@ -4,10 +4,6 @@ ZSH=$HOME/.oh-my-zsh
 # Path to zsh customizations
 export ZSH_CUSTOM=$HOME/.oh-my-zsh-custom
 
-autoload bashcompinit
-bashcompinit
-source $(brew --prefix)/etc/bash_completion
-
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
 
