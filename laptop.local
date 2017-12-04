@@ -41,20 +41,26 @@ ln -s ~/.vimrc ~/.config/nvim/init.vim
 brew update
 brew install reattach-to-user-namespace --wrap-pbcopy-and-pbpaste
 brew install \
-  aws-cli \
+  ag \
+  ansible \
   bash-completion \
-  elixir \
   gnupg \
   golang \
   gpg \
   gpg-agent \
+  heroku \
   hub \
+  kubectl \
+  jq \
   nmap \
-  neovim/neovim/neovim \
+  nvm \
+  neovim \
   pinentry-mac \
   sl \
   socat \
+  terraform \
   tmux \
-  tree
+  tree \
+  watch
 
 brew upgrade

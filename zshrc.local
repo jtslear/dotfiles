@@ -1,3 +1,5 @@
+bindkey -e
+
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
@@ -50,7 +52,8 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 fpath=(/usr/local/share/zsh-completions $fpath)
 
-export EDITOR=vim
+export EDITOR=nvim
+export VISUAL=nvim
 
 export GOPATH=$HOME/projects
 export PATH=$PATH:$GOPATH/bin
@@ -205,3 +208,6 @@ fuckincpuhog () {
   output=$(ps -e -o pid,pri,pcpu,comm | grep -i vshield)
   echo ${output}
 }
+
+export NVM_DIR="$HOME/.nvm"
+. "/usr/local/opt/nvm/nvm.sh"
