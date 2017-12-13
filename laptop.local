@@ -64,3 +64,5 @@ brew install \
   watch
 
 brew upgrade
+
+unlink ~/.zsh/configs/keybindings.zsh

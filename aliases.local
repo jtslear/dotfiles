@@ -9,6 +9,7 @@ alias gs="git status"
 alias tsm="tmate show-message"
 alias tf="terraform"
 alias k="kubectl"
+alias dc="docker-compose"
 
 eval "$(hub alias -s)"
 
