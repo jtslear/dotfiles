@@ -1,8 +1,9 @@
 alias be='bundle exec'
 alias ls="ls -lahG"
+alias sl="ls -lahG"
 alias gcm="git commit -m "
 alias gaa="git add -A"
-alias gc="git commit --verbose"
+alias gc="git commit -s --verbose"
 alias gd="git diff"
 alias gpr="git pull-request"
 alias gs="git status"

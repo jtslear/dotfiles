@@ -44,8 +44,10 @@ bind Down resize-pane -D 6
 
 #staus bars
 set-option -g status on
-# example output: 20130615 17:33 || 0.45 || 88%
-set-option -g status-right "%Y%m%d %H:%M:%S || #(~/.battery.sh Discharging; ~/.battery.sh Charging)"
+set-option -g status-right-length 80
+# example output: minikube || 20130615 17:33 || 88%
+# time is output in UTC time
+set-option -g status-right "#(kubectl config get-contexts | grep '*' | awk '{print $2}') || #(date -u '+%%Y%%m%%d %%H:%%M:%%S') || #(~/.battery.sh Discharging; ~/.battery.sh Charging)"
 
 # Utilize R to reload the config file
 bind R source-file ~/.tmux.conf \; display-message "Config reloaded..."

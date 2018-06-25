@@ -2,6 +2,7 @@
   templatedir = ~/.git_template
 [push]
 	default = simple
+	followTags = true
 [color]
   ui = auto
 [alias]
@@ -17,7 +18,9 @@
   ctags = "!sh -c '[ -f .git/hooks/ctags ] || git init; .git/hooks/ctags' git-ctags"
   delete-branch = !sh -c 'git push origin :refs/heads/$1 && git branch -D $1' -
   edit-unmerged = "!$EDITOR `git diff --name-only --diff-filter=U`"
+  fix = "!f() { ${EDITOR} `git diff --name-only`; }; f"
   merge-branch = !git checkout master && git merge @{-1}
+  nuke = '!f() { git branch -d $1 && git push origin --delete $1; }; f'
   pr = !gh pull-request
 	st = status
   up = !git fetch origin && git rebase origin/master
