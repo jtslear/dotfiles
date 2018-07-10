@@ -1,68 +1,163 @@
 #!/bin/bash
 
-if [[ "$OSTYPE" != "darwin"* ]]; then
-  echo "SILLY GUY, this script works only on OSX"
-  exit 1
-fi
+function setup_osx {
+  if [[ ! $(type brew) ]]; then
+    echo "Installing brew..."
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  fi
 
-if [[ ! $(type brew) ]]; then
-  echo "Installing brew..."
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-fi
+  if [[ "$SHELL" != $(which zsh) ]]; then
+    echo "changing ${SHELL}"
+    chsh -s $(which zsh)
+  fi
 
-if [[ "$SHELL" != $(which zsh) ]]; then
-  echo "changing ${SHELL}"
-  chsh -s $(which zsh)
-fi
+  brew tap thoughtbot/formulae && brew install rcm
 
-brew tap thoughtbot/formulae && brew install rcm
+  MY_DOTFILES=$HOME/projects/dotfiles
+  TB_DOTFILES=$HOME/projects/dotfiles-thoughtbot
 
-MY_DOTFILES=$HOME/projects/dotfiles
-TB_DOTFILES=$HOME/projects/dotfiles-thoughtbot
+  if [ ! -e $TB_DOTFILES ]; then
+    git clone https://github.com/thoughtbot/dotfiles.git $TB_DOTFILES
+  fi
 
-if [ ! -e $TB_DOTFILES ]; then
-  git clone https://github.com/thoughtbot/dotfiles.git $TB_DOTFILES
-fi
+  pushd $TB_DOTFILES
+  git pull
+  popd
 
-pushd $TB_DOTFILES
-git pull
-popd
+  pushd $MY_DOTFILES
+  git pull
+  popd
 
-pushd $MY_DOTFILES
-git pull
-popd
+  rcup -d $TB_DOTFILES -x gitconfig -x README.md -x LICENSE -x Brewfile -x rcrc
+  rcup -f -d $MY_DOTFILES -x README.md -x Brewfile -x install -x laptop.local
 
-rcup -d $TB_DOTFILES -x gitconfig -x README.md -x LICENSE -x Brewfile -x rcrc
-rcup -f -d $MY_DOTFILES -x README.md -x Brewfile -x install -x laptop.local
+  ln -s ~/.vim ~/.config/nvim
+  ln -s ~/.vimrc ~/.config/nvim/init.vim
 
-ln -s ~/.vim ~/.config/nvim
-ln -s ~/.vimrc ~/.config/nvim/init.vim
+  brew update
+  brew install reattach-to-user-namespace --wrap-pbcopy-and-pbpaste
+  brew install \
+    ag \
+    ansible \
+    bash-completion \
+    gnupg \
+    golang \
+    gpg \
+    gpg-agent \
+    heroku \
+    hub \
+    kubectl \
+    jq \
+    nmap \
+    nvm \
+    neovim \
+    pinentry-mac \
+    sl \
+    socat \
+    terraform \
+    tmux \
+    tree \
+    watch
 
-brew update
-brew install reattach-to-user-namespace --wrap-pbcopy-and-pbpaste
-brew install \
-  ag \
-  ansible \
-  bash-completion \
-  gnupg \
-  golang \
-  gpg \
-  gpg-agent \
-  heroku \
-  hub \
-  kubectl \
-  jq \
-  nmap \
-  nvm \
-  neovim \
-  pinentry-mac \
-  sl \
-  socat \
-  terraform \
-  tmux \
-  tree \
-  watch
+  brew upgrade
 
-brew upgrade
+  unlink ~/.zsh/configs/keybindings.zsh
+}
 
-unlink ~/.zsh/configs/keybindings.zsh
+function setup_linux {
+  # We are going to assume a debian based system here...
+  sudo apt-get install -y git curl zsh
+
+  if [[ ! -d "~/.fonts/AnonymousPro-1.002.001" ]]
+  then
+    mkdir ~/.fonts
+    pushd ~/.fonts
+    curl -LO https://www.marksimonson.com/assets/content/fonts/AnonymousPro-1.002.zip
+    unzip AnonymousPro-1.002.zip
+    rm -f AnonymousPro-1.002.zip
+    fc-cache -v
+    popd
+  fi
+
+  git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+  chmod +x $HOME/.asdf/asdf.sh
+  chmod +x $HOME/.asdf/completions/asdf.bash
+  $HOME/.asdf/asdf.sh
+
+  if [[ "$SHELL" != $(which zsh) ]]; then
+    echo "changing ${SHELL}"
+    chsh -s $(which zsh)
+  fi
+
+  sudo add-apt-repository --yes ppa:martin-frost/thoughtbot-rcm
+  sudo apt-get install -y rcm
+
+  MY_DOTFILES=$HOME/projects/dotfiles
+  TB_DOTFILES=$HOME/projects/dotfiles-thoughtbot
+
+  if [ ! -e $TB_DOTFILES ]; then
+    git clone https://github.com/thoughtbot/dotfiles.git $TB_DOTFILES
+  fi
+
+  pushd $TB_DOTFILES
+  git pull
+  popd
+
+  pushd $MY_DOTFILES
+  git pull
+  popd
+
+  rcup -d $TB_DOTFILES -x gitconfig -x README-ES.md -x README.md -x LICENSE -x Brewfile -x rcrc
+  rcup -f -d $MY_DOTFILES -x README.md -x Brewfile -x install -x laptop.local
+
+  ln -s ~/.vim ~/.config/nvim
+  ln -s ~/.vimrc ~/.config/nvim/init.vim
+
+  sudo apt-get update
+  sudo apt-get install \
+    silversearcher-ag \
+    bash-completion \
+    blueman \
+    flameshot \
+    gnupg \
+    gpg \
+    gpg-agent \
+    i3 \
+    i3lock-fancy \
+    jq \
+    neovim \
+    nmap \
+    numlockx \
+    ranger \
+    redshift-gtk \
+    socat \
+    tmux \
+    tree \
+    watch \
+    xautolock
+
+  asdf plugin-add golang
+  asdf plugin-add kubectl
+  asdf plugin-add minikube
+  asdf plugin-add ruby
+  asdf plugin-add terraform
+
+  asdf plugin-update --all
+
+  unlink ~/.zsh/configs/keybindings.zsh
+
+  sudo snap install spotify
+}
+
+case ${OSTYPE} in
+  "darwin")
+    setup_osx
+    ;;
+  "linux-gnu")
+    setup_linux
+    ;;
+  *)
+    echo "Unable to complete setup..."
+    ;;
+esac
+

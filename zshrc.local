@@ -21,7 +21,6 @@ export VISUAL=nvim
 
 export GOPATH=$HOME/projects
 export PATH=$PATH:$GOPATH/bin
-unset LSCOLORS
 
 if [ -e /usr/local/share/zsh/site-functions/_aws ]; then
   source /usr/local/share/zsh/site-functions/_aws
@@ -83,23 +82,6 @@ autoload -U add-zsh-hook
 add-zsh-hook precmd  theme_precmd
 add-zsh-hook precmd  time_precmd
 
-idunno()
-{
-  echo -n "¯\_(ツ)_/¯" | pbcopy
-  echo "¯\_(ツ)_/¯"
-}
-
-fixaudio ()
-{
-   sudo pkill -i coreaudio
-   sudo pkill -i spotify
-}
-
-fixvolume ()
-{
-  osascript -e "set volume input volume 100"
-}
-
 wtf () {
   cat << EOF
 (ノ ゜Д゜)ノ ︵ ┻━┻
@@ -120,42 +102,16 @@ notify () {
   pusher -i 2093 DONE
 }
 
-if [ -e ~/.waffle.env ]; then
-  source ~/.waffle.env
-fi
-
 # GPG Agent stuffs
-# https://gist.github.com/bmhatfield/cc21ec0a3a2df963bffa3c1f884b676b
-if [ -f ~/.gnupg/.gpg-agent-info ] && [ -n "$(pgrep gpg-agent)" ]; then
-  source ~/.gnupg/.gpg-agent-info
-  export GPG_AGENT_INFO
-else
-  eval $(gpg-agent --daemon --write-env-file ~/.gnupg/.gpg-agent-info)
+if [[ -z "$(pgrep gpg-agent)" ]]
+then
+  eval $(gpg-agent --daemon)
 fi
 
-source <(kubectl completion zsh)
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/skajo02/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/skajo02/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/skajo02/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/skajo02/google-cloud-sdk/completion.zsh.inc'; fi
-
-fuckincpuhog () {
-  output=$(ps -e -o pid,pri,pcpu,comm | grep -i vshield)
-  echo ${output}
-  process_count=$(ps -e -o pid,comm | grep -i vshield | wc -l)
-  echo "Processes Found: ${process_count}"
-  ps -e -o pid,comm | grep -i vshield | grep -v grep | awk {'print $1'} | xargs sudo renice 20
-  output=$(ps -e -o pid,pri,pcpu,comm | grep -i vshield)
-  echo ${output}
-}
-
-export NVM_DIR="$HOME/.nvm"
-. "/usr/local/opt/nvm/nvm.sh"
-
-export PATH="/usr/local/opt/mongodb@3.2/bin:$PATH"
-
+if $(which kubectl 2>&1 > /dev/null)
+then
+  source <(kubectl completion zsh)
+fi
 
 if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
   function zle-line-init() {
@@ -170,37 +126,11 @@ fi
 
 bindkey -e                                            # Use emacs key bindings
 
-bindkey '^r' history-incremental-search-backward      # [Ctrl-r] - Search backward incrementally for a specified string. The string may begin with ^ to anchor the search to the beginning of the line.
-if [[ "${terminfo[kpp]}" != "" ]]; then
-  bindkey "${terminfo[kpp]}" up-line-or-history       # [PageUp] - Up a line of history
-fi
-if [[ "${terminfo[knp]}" != "" ]]; then
-  bindkey "${terminfo[knp]}" down-line-or-history     # [PageDown] - Down a line of history
-fi
+$HOME/.asdf/asdf.sh
+$HOME/.asdf/completions/asdf.bash
 
-# start typing + [Up-Arrow] - fuzzy find history forward
-if [[ "${terminfo[kcuu1]}" != "" ]]; then
-  autoload -U up-line-or-beginning-search
-  zle -N up-line-or-beginning-search
-  bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
-fi
-# start typing + [Down-Arrow] - fuzzy find history backward
-if [[ "${terminfo[kcud1]}" != "" ]]; then
-  autoload -U down-line-or-beginning-search
-  zle -N down-line-or-beginning-search
-  bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
-fi
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/skarbek/Downloads/google-cloud-sdk/path.zsh.inc' ]; then source '/home/skarbek/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 
-if [[ "${terminfo[khome]}" != "" ]]; then
-  bindkey "${terminfo[khome]}" beginning-of-line      # [Home] - Go to beginning of line
-fi
-if [[ "${terminfo[kend]}" != "" ]]; then
-  bindkey "${terminfo[kend]}"  end-of-line            # [End] - Go to end of line
-fi
-
-if [[ "${terminfo[kcbt]}" != "" ]]; then
-  bindkey "${terminfo[kcbt]}" reverse-menu-complete   # [Shift-Tab] - move through the completion menu backwards
-fi
-
-bindkey 'M-f' emacs-forward-word
-bindkey '\ef' emacs-backward-word
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/skarbek/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/skarbek/Downloads/google-cloud-sdk/completion.zsh.inc'; fi

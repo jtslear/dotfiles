@@ -7,7 +7,7 @@ bind -n WheelDownPane select-pane -t= \; send-keys -M
 
 # Setup 'v' to begin selection as in Vim
 bind-key -T copy-mode-vi v send-keys -X begin-selection
-bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
+bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xsel -i --clipboard"
 bind p paste-buffer
 
 # set sync on and off
@@ -47,13 +47,13 @@ set-option -g status on
 set-option -g status-right-length 80
 # example output: minikube || 20130615 17:33 || 88%
 # time is output in UTC time
-set-option -g status-right "#(kubectl config get-contexts | grep '*' | awk '{print $2}') || #(date -u '+%%Y%%m%%d %%H:%%M:%%S') || #(~/.battery.sh Discharging; ~/.battery.sh Charging)"
+set-option -g status-right "#(kubectl config get-contexts | grep '*' | awk '{print $2}') || #(lscpu | grep MHz | head -n 1 | awk {'print $3'} | cut -d'.' -f1 )"
 
 # Utilize R to reload the config file
 bind R source-file ~/.tmux.conf \; display-message "Config reloaded..."
 
 set-option -g default-shell $SHELL
-set-option -g default-command "reattach-to-user-namespace -l ${SHELL}"
+set-option -g default-command "${SHELL}"
 set-option -g destroy-unattached off
 set-option -g set-titles
 set-window-option -g automatic-rename off

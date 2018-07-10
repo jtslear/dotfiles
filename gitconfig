@@ -47,8 +47,6 @@
 [user]
   name = John T Skarbek
   email = jtslear@gmail.com
-	signingkey = 6A236712
+	signingkey = E4BFEA4DD0412782A645C8FFB698C3146A236712
 [github]
 	user = jtslear
-[ghi]
-	token = !security find-internet-password -a jtslear -s github.com -l 'ghi token' -w

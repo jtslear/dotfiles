@@ -1,19 +1,11 @@
 alias be='bundle exec'
-alias ls="ls -lahG"
-alias sl="ls -lahG"
+alias ls="ls -lahG --color"
+alias sl="ls -lahG --color"
 alias gcm="git commit -m "
 alias gaa="git add -A"
 alias gc="git commit -s --verbose"
 alias gd="git diff"
-alias gpr="git pull-request"
 alias gs="git status"
-alias tsm="tmate show-message"
 alias tf="terraform"
 alias k="kubectl"
 alias dc="docker-compose"
-
-eval "$(hub alias -s)"
-
-if type nvim > /dev/null 2>&1; then
-  alias vim='nvim'
-fi
