@@ -1,5 +1,5 @@
 " Define bundles via Github repos
-Plug 'croaky/vim-colors-github'
+Plug 'dracula/vim', {'as':'dracula'}
 Plug 'tpope/vim-markdown'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'elixir-lang/vim-elixir'
