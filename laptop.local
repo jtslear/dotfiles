@@ -68,7 +68,7 @@ function setup_linux {
   # We are going to assume a debian based system here...
   sudo apt-get install -y git curl zsh
 
-  if [[ ! -d "~/.fonts/AnonymousPro-1.002.001" ]]
+  if [[ ! -e ~/.fonts/AnonymousPro-1.002.001 ]]
   then
     mkdir ~/.fonts
     pushd ~/.fonts
@@ -79,10 +79,20 @@ function setup_linux {
     popd
   fi
 
-  git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-  chmod +x $HOME/.asdf/asdf.sh
-  chmod +x $HOME/.asdf/completions/asdf.bash
+  if [[ ! -e ~/.config/base16-shell ]]
+  then
+    git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+  fi
+
+  if [[ ! -e ~/.asdf ]]
+  then
+    git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+    chmod +x $HOME/.asdf/asdf.sh
+    chmod +x $HOME/.asdf/completions/asdf.bash
+  fi
   $HOME/.asdf/asdf.sh
+  asdf update
+  asdf plugin-update --all
 
   if [[ "$SHELL" != $(which zsh) ]]; then
     echo "changing ${SHELL}"
@@ -97,6 +107,10 @@ function setup_linux {
 
   if [ ! -e $TB_DOTFILES ]; then
     git clone https://github.com/thoughtbot/dotfiles.git $TB_DOTFILES
+  fi
+
+  if [ ! -e ~/.zsh/zsh-autosuggestions ]; then
+    git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
   fi
 
   pushd $TB_DOTFILES
@@ -142,8 +156,6 @@ function setup_linux {
   asdf plugin-add ruby
   asdf plugin-add terraform
 
-  asdf plugin-update --all
-
   unlink ~/.zsh/configs/keybindings.zsh
 
   sudo snap install spotify
@@ -160,4 +172,3 @@ case ${OSTYPE} in
     echo "Unable to complete setup..."
     ;;
 esac
-

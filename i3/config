@@ -31,11 +31,15 @@ font pango: Anonymous Pro 11
 floating_modifier $mod
 
 # start a terminal
-set $term urxvt
+set $term kitty
 bindsym $mod+Return exec $term
 
 # kill focused window
 bindsym $mod+Shift+q kill
+
+# https://github.com/khamer/base16-i3
+# change the color
+bindsym $mod+Shift+b exec "curl https://raw.githubusercontent.com/khamer/base16-i3/master/colors/base16-default-dark.config >> ~/.i3/config && i3-msg reload"
 
 set $unmute pactl set-sink-mute $(pacmd list-sinks | grep -e '* index: ' | cut -d' ' -f5) 0
 set $increaseVolume pactl set-sink-volume $(pacmd list-sinks | grep -e '* index: ' | cut -d' ' -f5) +5%
@@ -64,8 +68,10 @@ bindsym $mod+d exec "dmenu_run -nf '#BBBBBB' -nb '#222222' -sb '#005577' -sf '#E
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 #
 
-exec --no-startup-id xset dpms 600
-exec --no-startup-id xautolock -time 10 -locker 'i3lock-fancy'
+exec --no-startup-id xset dpms 900 3600 3600
+exec --no-startup-id xset s off
+exec --no-startup-id xautolock -time 30 -locker 'i3lock-fancy'
+exec --no-startup-id xinput set-prop "ETPS/2 Elantech Touchpad" 276 1
 
 #bindsym $mod+Print --release exec --no-startup-id scrot -s
 
@@ -145,10 +151,12 @@ bindsym $mod+Shift+0 move container to workspace 10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
+# redo the monitor setup
+bindsym $mod+Shift+m exec ~/.monitor-setup.sh
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit' -b 'Lock' 'i3lock-fancy'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit' -b 'Lock' 'i3lock-fancy' -b 'Shutdown' 'shutdown -h now'"
 #bindsym $mod+Shift+e exec "i3-msg exit"
 
 # resize window (you can also use the mouse for that)
@@ -184,29 +192,30 @@ bar {
   status_command i3status
   position top
   colors {
-    background #4f4f4f
-    statusline #DDDDDD
-    separator  #666666
+    background $base00
+    separator  $base01
+    statusline $base04
 
-    focused_workspace  #4A995F #4A995F #FFFFFF
-    active_workspace   #333333 #222222 #FFFFFF
-    inactive_workspace #333333 #222222 #888888
-    urgent_workspace   #2F343A #900000 #FFFFFF
-    binding_mode       #2F343A #900000 #FFFFFF
+    # State             Border  BG      Text
+    focused_workspace   $base05 $base0D $base00
+    active_workspace    $base05 $base03 $base00
+    inactive_workspace  $base03 $base01 $base05
+    urgent_workspace    $base08 $base08 $base00
+    binding_mode        $base00 $base0A $base00
   }
 }
 
 # class                 border  bground text    indicator child_border
-client.focused          #4A995F #4A995F #FFFFFF #2E9EF4   #285577
-client.focused_inactive #333333 #5F676A #FFFFFF #484E50   #5F676A
-client.unfocused        #333333 #222222 #888888 #292D2E   #222222
-client.urgent           #2F343A #900000 #FFFFFF #900000   #900000
-client.placeholder      #000000 #0C0C0C #FFFFFF #000000   #0C0C0C
-client.background       #4f4f4f
+client.focused          $base05 $base0D $base00 $base0D $base0D
+client.focused_inactive $base01 $base01 $base05 $base03 $base01
+client.unfocused        $base01 $base00 $base05 $base01 $base01
+client.urgent           $base08 $base08 $base00 $base08 $base08
+client.placeholder      $base00 $base00 $base05 $base00 $base00
+client.background       $base07
 
 
 exec $term
-exec google-chrome
+exec brave-browser
 exec slack
 exec --no-startup-id flameshot
 exec --no-startup-id redshift-gtk
@@ -214,9 +223,10 @@ exec --no-startup-id redshift-gtk
 # Set capslock to escape
 exec --no-startup-id xinput set-prop 12 277 1
 exec --no-startup-id ~/.monitor-setup.sh
+exec --no-start-id feh --bg-fill /usr/share/backgrounds/This_Is_Bionic_Beaver_by_Pierre_Cante.jpg
 exec --no-startup-id numlockx on
 exec --no-startup-id blueman-applet
-exec zoom
+exec sleep 60; zoom
 exec sleep 60; spotify
 
 for_window [class="(?i)System-config-printer.py"] floating enable
@@ -224,3 +234,45 @@ for_window [class="(?i)spotify$"] move to workspace 2
 for_window [class="(?i)virtualbox"] floating enable
 for_window [instance="Slack Call Minipanel"] floating enable, sticky enable
 for_window [class="(?i)zoom$"] floating enable
+## Base16 Default Dark
+# Author: Chris Kempson (http://chriskempson.com)
+#
+# You can use these variables anywhere in the i3 configuration file.
+
+set $base00 #181818
+set $base01 #282828
+set $base02 #383838
+set $base03 #585858
+set $base04 #b8b8b8
+set $base05 #d8d8d8
+set $base06 #e8e8e8
+set $base07 #f8f8f8
+set $base08 #ab4642
+set $base09 #dc9656
+set $base0A #f7ca88
+set $base0B #a1b56c
+set $base0C #86c1b9
+set $base0D #7cafc2
+set $base0E #ba8baf
+set $base0F #a16946
+## Base16 Default Dark
+# Author: Chris Kempson (http://chriskempson.com)
+#
+# You can use these variables anywhere in the i3 configuration file.
+
+set $base00 #181818
+set $base01 #282828
+set $base02 #383838
+set $base03 #585858
+set $base04 #b8b8b8
+set $base05 #d8d8d8
+set $base06 #e8e8e8
+set $base07 #f8f8f8
+set $base08 #ab4642
+set $base09 #dc9656
+set $base0A #f7ca88
+set $base0B #a1b56c
+set $base0C #86c1b9
+set $base0D #7cafc2
+set $base0E #ba8baf
+set $base0F #a16946
