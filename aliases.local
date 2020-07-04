@@ -1,4 +1,6 @@
+alias b='bundle install --binstubs ${PWD}/.bin'
 alias be='bundle exec'
+alias cat=bat
 alias ls="ls -lahG --color"
 alias sl="ls -lahG --color"
 alias gcm="git commit -m "
@@ -15,3 +17,4 @@ alias dc="docker-compose"
 alias cdpro="cd ${HOME}/projects"
 alias kc="kitchen converge"
 alias kv="kitchen verify"
+alias :q=exit

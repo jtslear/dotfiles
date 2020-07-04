@@ -11,3 +11,5 @@ Plug 'vim-airline/vim-airline'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'google/vim-jsonnet'
 Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'

@@ -157,8 +157,6 @@ function setup_linux {
   asdf plugin-add terraform
 
   unlink ~/.zsh/configs/keybindings.zsh
-
-  sudo snap install spotify
 }
 
 case ${OSTYPE} in

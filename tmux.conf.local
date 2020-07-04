@@ -1,6 +1,8 @@
 # improve colors
 set-option -g terminal-overrides 'xterm*:smcup@:rmcup@'
 
+set-option -g update-environment 'DBUS_SESSION_BUS_ADDRESS'
+
 set -g mouse on
 bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"
 bind -n WheelDownPane select-pane -t= \; send-keys -M
@@ -28,7 +30,7 @@ set-option -g history-limit 10000
 
 #add logical splits
 bind | split-window -h
-bind \ split-window -h
+bind \\ split-window -h
 bind - split-window -v
 bind _ split-window -v
 
@@ -44,10 +46,10 @@ bind Down resize-pane -D 6
 
 #staus bars
 set-option -g status on
-set-option -g status-right-length 80
+set-option -g status-right-length 90
 # example output: minikube || 20130615 17:33 || 88%
 # time is output in UTC time
-set-option -g status-right "gcloud: #(gcloud config configurations list | grep True | awk {'print $1'}) || kubectx: #(kubectl config get-contexts | grep '*' | awk '{print $2}') || #(lscpu | grep MHz | head -n 1 | awk {'print $3'} | cut -d'.' -f1 )"
+set-option -g status-right "gcloud: #(gcloud config configurations list | grep True | awk {'print $1'}) || kubectx: #(kubectl config current-context) || #(lscpu | grep MHz | head -n 1 | awk {'print $3'} | cut -d'.' -f1 )"
 
 # Utilize R to reload the config file
 bind R source-file ~/.tmux.conf \; display-message "Config reloaded..."
@@ -56,7 +58,7 @@ set-option -g default-shell $SHELL
 set-option -g default-command "${SHELL}"
 set-option -g destroy-unattached off
 set-option -g set-titles
-set-window-option -g automatic-rename off
+set-window-option -g automatic-rename on
 set-window-option -g monitor-activity on
 
 set escape-time 0
