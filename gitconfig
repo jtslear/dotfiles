@@ -50,9 +50,11 @@
 [user]
   name = John T Skarbek
   email = jskarbek@gitlab.com
-	signingkey = 9CF9CE9483EAB342A3091E72F8423BFD15FE4A5E
+	signingkey = B066D9AA565BB2FA
 [github]
 	user = jtslear
 [credential]
 	helper = !aws codecommit credential-helper $@
 	UseHttpPath = true
+[pull]
+	rebase = false

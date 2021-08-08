@@ -50,7 +50,6 @@ function setup_osx {
     jq \
     nmap \
     nvm \
-    neovim \
     pinentry-mac \
     sl \
     socat \
@@ -131,7 +130,6 @@ function setup_linux {
   sudo apt-get install \
     silversearcher-ag \
     bash-completion \
-    blueman \
     flameshot \
     gnupg \
     gpg \
@@ -139,7 +137,6 @@ function setup_linux {
     i3 \
     i3lock-fancy \
     jq \
-    neovim \
     nmap \
     numlockx \
     ranger \

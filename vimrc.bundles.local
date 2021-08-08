@@ -13,3 +13,5 @@ Plug 'google/vim-jsonnet'
 Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'rlue/vim-fold-rspec'
+Plug 'mustache/vim-mustache-handlebars'

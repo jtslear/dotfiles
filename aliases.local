@@ -1,11 +1,11 @@
 alias b='bundle install --binstubs ${PWD}/.bin'
 alias be='bundle exec'
-alias cat=bat
+alias cat='bat --style plain'
 alias ls="ls -lahG --color"
 alias sl="ls -lahG --color"
-alias gcm="git commit -m "
+alias gcm="git commit -S -m "
 alias gaa="git add -A"
-alias gc="git commit --verbose"
+alias gc="git commit -S --verbose"
 alias gd="git diff"
 alias gp="git pull"
 alias gs="git status"
@@ -18,3 +18,9 @@ alias cdpro="cd ${HOME}/projects"
 alias kc="kitchen converge"
 alias kv="kitchen verify"
 alias :q=exit
+alias watchk="watch kubectl get pods"
+
+if type nvim > /dev/null 2>&1; then
+  alias vim='nvim'
+  alias vi='nvim'
+fi

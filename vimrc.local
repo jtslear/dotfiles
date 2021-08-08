@@ -1,6 +1,8 @@
 set swapfile
 set scrolloff=4
 set textwidth=0
+set modeline
+set modelines=5
 
 let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
@@ -14,3 +16,7 @@ if filereadable(expand("~/.vimrc_background"))
   let base16colorspace=256
   source ~/.vimrc_background
 endif
+
+au BufRead,BufNewFile *.yaml.gotmpl set filetype=yaml
+
+hi SpellBad ctermbg=black ctermfg=red

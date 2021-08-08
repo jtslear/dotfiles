@@ -9,7 +9,8 @@ bind -n WheelDownPane select-pane -t= \; send-keys -M
 
 # Setup 'v' to begin selection as in Vim
 bind-key -T copy-mode-vi v send-keys -X begin-selection
-bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xsel -i --clipboard"
+bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -in -selection clipboard"
+unbind -T copy-mode-vi MouseDragEnd1Pane
 bind p paste-buffer
 
 # set sync on and off
