@@ -132,6 +132,8 @@ cycleNet () {
   set +x
 }
 
+#eval $(op signin gitlab)
+
 # GPG Agent stuffs
 if [[ -z "$(pgrep gpg-agent)" ]]
 then
@@ -233,6 +235,10 @@ ktx() {
       ;;
     ops)
       sshuttle -r lb-bastion.ops.gitlab.com "${ip}/32"
+      kubectx gke_gitlab-pre_us-east1_pre-gitlab-gke
+      ;;
+    org-ci)
+      sshuttle -r lb-bastion.org-ci.gitlab.com "${ip}/32"
       kubectx gke_gitlab-pre_us-east1_pre-gitlab-gke
       ;;
     *)

@@ -1,5 +1,7 @@
 # improve colors
 set-option -g terminal-overrides 'xterm*:smcup@:rmcup@'
+set-option -g terminal-overrides 'screen-256color:RGB'
+set-option -g terminal-overrides 'screen-256color:Tc'
 
 set-option -g update-environment 'DBUS_SESSION_BUS_ADDRESS'
 
@@ -16,6 +18,8 @@ bind p paste-buffer
 # set sync on and off
 bind S set synchronize-panes on
 bind u set synchronize-panes off
+
+set-option -g focus-events on
 
 unbind C-b
 set-option -g prefix C-q
