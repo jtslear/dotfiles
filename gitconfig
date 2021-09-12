@@ -2,39 +2,42 @@
   templatedir = ~/.git_template
 [push]
 	default = simple
-	followTags = true
 [color]
   ui = auto
 [alias]
   aa = add --all
   add-unmerged = "!git add `git diff --name-only --diff-filter=U`"
   ap = add --patch
+  br = branch
   branches = for-each-ref --sort=-committerdate --format=\"%(color:blue)%(authordate:relative)\t%(color:red)%(authorname)\t%(color:white)%(color:bold)%(refname:short)\" refs/remotes
-  ca = commit --amend
-	ci = commit
-	co = checkout
+  ca = commit -S --amend
+  ci = commit -S
+  co = checkout
   co-pr = !sh -c 'git fetch origin pull/$1/head:pr/$1 && git checkout pr/$1' -
   create-branch = !sh -c 'git push origin HEAD:refs/heads/$1 && git fetch origin && git branch --track $1 origin/$1 && cd . && git checkout $1' -
   ctags = "!sh -c '[ -f .git/hooks/ctags ] || git init; .git/hooks/ctags' git-ctags"
+  d = diff
+  dc = diff --cached
   delete-branch = !sh -c 'git push origin :refs/heads/$1 && git branch -D $1' -
   edit-unmerged = "!$EDITOR `git diff --name-only --diff-filter=U`"
   fix = "!f() { ${EDITOR} `git diff --name-only`; }; f"
+  la = config --get-regexp alias
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
+  lga = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit --all
   merge-branch = !git checkout master && git merge @{-1}
+  mr = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
   nuke = '!f() { git branch -d $1 && git push origin --delete $1; }; f'
   pr = !gh pull-request
-	st = status
+  pu = "!git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)"
+  st = status
   up = !git fetch origin && git rebase origin/master
-	br = branch
-	d = diff
-	dc = diff --cached
-	la = config --get-regexp alias
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
-	lga = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit --all
 [core]
   excludesfile = ~/.gitignore
   autocrlf = input
 [merge]
   ff = only
+[merge "ours"]
+  driver = true
 [commit]
   template = ~/.gitmessage
 	gpgsign = true
@@ -46,9 +49,12 @@
   path = ~/.gitconfig.local
 [user]
   name = John T Skarbek
-  email = jtslear@gmail.com
-	signingkey = 6A236712
+  email = jskarbek@gitlab.com
+	signingkey = B066D9AA565BB2FA
 [github]
 	user = jtslear
-[ghi]
-	token = !security find-internet-password -a jtslear -s github.com -l 'ghi token' -w
+[credential]
+	helper = !aws codecommit credential-helper $@
+	UseHttpPath = true
+[pull]
+	rebase = false

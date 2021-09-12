@@ -1,10 +1,17 @@
 " Define bundles via Github repos
-Plug 'croaky/vim-colors-github'
 Plug 'tpope/vim-markdown'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'elixir-lang/vim-elixir'
 Plug 'tpope/vim-surround'
-Plug 'leafgarland/typescript-vim'
 Plug 'Quramy/tsuquyomi'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'airblade/vim-gitgutter'
+Plug 'chriskempson/base16-vim'
+Plug 'b4b4r07/vim-hcl'
+Plug 'vim-airline/vim-airline'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'google/vim-jsonnet'
+Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'rlue/vim-fold-rspec'
+Plug 'mustache/vim-mustache-handlebars'

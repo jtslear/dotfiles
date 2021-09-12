@@ -1,19 +1,26 @@
+alias b='bundle install --binstubs ${PWD}/.bin'
 alias be='bundle exec'
-alias ls="ls -lahG"
-alias sl="ls -lahG"
-alias gcm="git commit -m "
+alias cat='bat --style plain'
+alias ls="ls -lahG --color"
+alias sl="ls -lahG --color"
+alias gcm="git commit -S -m "
 alias gaa="git add -A"
-alias gc="git commit -s --verbose"
+alias gc="git commit -S --verbose"
 alias gd="git diff"
-alias gpr="git pull-request"
+alias gp="git pull"
 alias gs="git status"
-alias tsm="tmate show-message"
+alias gca="gcloud config configurations activate"
+alias gcl="gcloud config configurations list"
 alias tf="terraform"
 alias k="kubectl"
 alias dc="docker-compose"
-
-eval "$(hub alias -s)"
+alias cdpro="cd ${HOME}/projects"
+alias kc="kitchen converge"
+alias kv="kitchen verify"
+alias :q=exit
+alias watchk="watch kubectl get pods"
 
 if type nvim > /dev/null 2>&1; then
   alias vim='nvim'
+  alias vi='nvim'
 fi

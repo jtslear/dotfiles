@@ -1,8 +1,4 @@
-ZSH_TMUX_AUTOSTART=true
-
-# Uncomment following line if you want red dots to be displayed while waiting for completion
-export COMPLETION_WAITING_DOTS="true"
-
+[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 # Automatically quote globs in URL and remote references
 # http://superuser.com/questions/420525/scp-with-zsh-no-matches-found
 __remote_commands=(scp rsync)
@@ -10,21 +6,32 @@ autoload -U url-quote-magic
 zle -N self-insert url-quote-magic
 zstyle -e :urlglobber url-other-schema '[[ $__remote_commands[(i)$words[1]] -le ${#__remote_commands} ]] && reply=("*") || reply=(http https ftp)'
 
-plugins=(colored-man-pages docker key-bindings osx tmux)
+zstyle -e ':completion:*:(ssh|scp|sftp|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
 unsetopt share_history
 
 fpath=(/usr/local/share/zsh-completions $fpath)
 
+autoload -Uz compinit
+compinit
+# Completion for kitty
+kitty + complete setup zsh | source /dev/stdin
+
 export EDITOR=nvim
 export VISUAL=nvim
+export BROWSER=/usr/bin/brave-browser
 
 export GOPATH=$HOME/projects
 export PATH=$PATH:$GOPATH/bin
-unset LSCOLORS
+
+export PATH=$PATH:${HOME}/.local/bin
 
 if [ -e /usr/local/share/zsh/site-functions/_aws ]; then
   source /usr/local/share/zsh/site-functions/_aws
+fi
+
+if [ -e ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+  source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
 autoload -Uz vcs_info
@@ -33,7 +40,7 @@ zstyle ':vcs_info:*' stagedstr '%F{green}●'
 zstyle ':vcs_info:*' unstagedstr '%F{yellow}●'
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{11}%r'
-zstyle ':vcs_info:*' enable git svn
+zstyle ':vcs_info:*' enable git
 
 theme_precmd () {
   if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null) ]] {
@@ -76,29 +83,18 @@ calc_elapsed_time () {
   fi
 }
 
+# Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/"
+[ -n "$PS1" ] && \
+    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+        eval "$("$BASE16_SHELL/profile_helper.sh")"
+
 setopt prompt_subst
 PROMPT='%F{cyan}${timer_result} %{$fg_bold[blue]%}%c%{$reset_color%}%B%F{green}${vcs_info_msg_0_}%B%F{magenta} %{$reset_color%}%% '
 
 autoload -U add-zsh-hook
 add-zsh-hook precmd  theme_precmd
 add-zsh-hook precmd  time_precmd
-
-idunno()
-{
-  echo -n "¯\_(ツ)_/¯" | pbcopy
-  echo "¯\_(ツ)_/¯"
-}
-
-fixaudio ()
-{
-   sudo pkill -i coreaudio
-   sudo pkill -i spotify
-}
-
-fixvolume ()
-{
-  osascript -e "set volume input volume 100"
-}
 
 wtf () {
   cat << EOF
@@ -120,42 +116,38 @@ notify () {
   pusher -i 2093 DONE
 }
 
-if [ -e ~/.waffle.env ]; then
-  source ~/.waffle.env
-fi
-
-# GPG Agent stuffs
-# https://gist.github.com/bmhatfield/cc21ec0a3a2df963bffa3c1f884b676b
-if [ -f ~/.gnupg/.gpg-agent-info ] && [ -n "$(pgrep gpg-agent)" ]; then
-  source ~/.gnupg/.gpg-agent-info
-  export GPG_AGENT_INFO
-else
-  eval $(gpg-agent --daemon --write-env-file ~/.gnupg/.gpg-agent-info)
-fi
-
-source <(kubectl completion zsh)
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/skajo02/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/skajo02/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/skajo02/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/skajo02/google-cloud-sdk/completion.zsh.inc'; fi
-
-fuckincpuhog () {
-  output=$(ps -e -o pid,pri,pcpu,comm | grep -i vshield)
-  echo ${output}
-  process_count=$(ps -e -o pid,comm | grep -i vshield | wc -l)
-  echo "Processes Found: ${process_count}"
-  ps -e -o pid,comm | grep -i vshield | grep -v grep | awk {'print $1'} | xargs sudo renice 20
-  output=$(ps -e -o pid,pri,pcpu,comm | grep -i vshield)
-  echo ${output}
+cycleWifi () {
+  sudo nmcli con down ${1}
+  sudo nmcli con up ${1}
 }
 
-export NVM_DIR="$HOME/.nvm"
-. "/usr/local/opt/nvm/nvm.sh"
+cycleNet () {
+  set -x
+  if [[ -z "${1}" ]]; then
+    wifi=$(nmcli con show | gep wlp61s0 | awk {'pr $1'})
+    cycleWifi ${wifi}
+  else
+    cycleWifi ${1}
+  fi
+  set +x
+}
 
-export PATH="/usr/local/opt/mongodb@3.2/bin:$PATH"
+#eval $(op signin gitlab)
 
+# GPG Agent stuffs
+if [[ -z "$(pgrep gpg-agent)" ]]
+then
+  echo "Starting a gpg agent"
+  eval $(gpgconf --launch gpg-agent)
+else
+  echo "Not starting an agent"
+  clear
+fi
+
+if $(which kubectl 2>&1 > /dev/null)
+then
+  source <(kubectl completion zsh)
+fi
 
 if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
   function zle-line-init() {
@@ -168,39 +160,90 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
   zle -N zle-line-finish
 fi
 
-bindkey -e                                            # Use emacs key bindings
+bindkey -e # Use emacs key bindings
 
-bindkey '^r' history-incremental-search-backward      # [Ctrl-r] - Search backward incrementally for a specified string. The string may begin with ^ to anchor the search to the beginning of the line.
-if [[ "${terminfo[kpp]}" != "" ]]; then
-  bindkey "${terminfo[kpp]}" up-line-or-history       # [PageUp] - Up a line of history
-fi
-if [[ "${terminfo[knp]}" != "" ]]; then
-  bindkey "${terminfo[knp]}" down-line-or-history     # [PageDown] - Down a line of history
-fi
+source $HOME/.asdf/asdf.sh
+source $HOME/.asdf/completions/asdf.bash
+# ruby binstubs - see the aliases file
+export PATH='./.bin':$PATH
 
-# start typing + [Up-Arrow] - fuzzy find history forward
-if [[ "${terminfo[kcuu1]}" != "" ]]; then
-  autoload -U up-line-or-beginning-search
-  zle -N up-line-or-beginning-search
-  bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
-fi
-# start typing + [Down-Arrow] - fuzzy find history backward
-if [[ "${terminfo[kcud1]}" != "" ]]; then
-  autoload -U down-line-or-beginning-search
-  zle -N down-line-or-beginning-search
-  bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
-fi
+# krew
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
-if [[ "${terminfo[khome]}" != "" ]]; then
-  bindkey "${terminfo[khome]}" beginning-of-line      # [Home] - Go to beginning of line
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/skarbek/Downloads/google-cloud-sdk/path.zsh.inc' ]; then source '/home/skarbek/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/skarbek/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/skarbek/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+killall ssh-agent
+unset SSH_AGENT_PID
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 fi
-if [[ "${terminfo[kend]}" != "" ]]; then
-  bindkey "${terminfo[kend]}"  end-of-line            # [End] - Go to end of line
+gpg-connect-agent updatestartuptty /bye
+
+if [ -e ~/.gitlab-env ]; then
+  source ~/.gitlab-env
 fi
 
-if [[ "${terminfo[kcbt]}" != "" ]]; then
-  bindkey "${terminfo[kcbt]}" reverse-menu-complete   # [Shift-Tab] - move through the completion menu backwards
+gmr() {
+  if [[ $# -gt 0 ]]
+  then
+    git log --reverse --format="### %H - %s%n%n%b" "$@"
+  else
+    git log --reverse --format="### %H - %s%n%n%b" HEAD...master
+  fi
+}
+
+# start X if on TTY 1
+if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]]
+then
+    exec startx
 fi
 
-bindkey 'M-f' emacs-forward-word
-bindkey '\ef' emacs-backward-word
+ktx() {
+  env=$1
+  zone=$2
+
+  if [[ -n "$zone" ]]; then
+    context=$(kubectx | grep "$env" | grep "us-east1-${zone}_")
+  else
+    context=$(kubectx | grep "$env" | grep "us-east1_")
+  fi
+
+  if [[ -z "$context" ]]; then
+    echo 'No context found.'
+    return 1
+  fi
+
+  echo "Switching to $context"
+  kubectx "$context"
+
+  ip=$(kubectl config view --minify --output json | jq -r .clusters[0].cluster.server | tr -d 'https://')
+
+  echo 'Starting up sshuttle...'
+
+  case $env in
+    gprd)
+      sshuttle -r console-01-sv-gprd.c.gitlab-production.internal "${ip}/32"
+      kubectx gke_gitlab-pre_us-east1_pre-gitlab-gke
+      ;;
+    gstg)
+      sshuttle -r console-01-sv-gstg.c.gitlab-staging-1.internal "${ip}/32"
+      kubectx gke_gitlab-pre_us-east1_pre-gitlab-gke
+      ;;
+    ops)
+      sshuttle -r lb-bastion.ops.gitlab.com "${ip}/32"
+      kubectx gke_gitlab-pre_us-east1_pre-gitlab-gke
+      ;;
+    org-ci)
+      sshuttle -r lb-bastion.org-ci.gitlab.com "${ip}/32"
+      kubectx gke_gitlab-pre_us-east1_pre-gitlab-gke
+      ;;
+    *)
+      echo 'Unsure what env to handle.'
+      return 1
+      ;;
+  esac
+}
