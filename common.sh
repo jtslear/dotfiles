@@ -45,11 +45,34 @@ function setup_common {
     ln -s ~/.vimrc ~/.config/nvim/init.vim
   fi
 
+  asdf plugin-add 1password-cli
+  asdf plugin-add bat
+  asdf plugin-add go-jsonnet
   asdf plugin-add golang
+  asdf plugin-add helm
+  asdf plugin-add helmfile
+  asdf plugin-add jsonnet-bundler
+  asdf plugin-add k9s
+  asdf plugin-add kind
   asdf plugin-add kubectl
+  asdf plugin-add kubespy
+  asdf plugin-add kubetail
+  asdf plugin-add kustomize
   asdf plugin-add minikube
+  asdf plugin-add minio
+  asdf plugin-add neovim
+  asdf plugin-add nodejs
+  asdf plugin-add postgres
+  asdf plugin-add python
+  asdf plugin-add redis
   asdf plugin-add ruby
+  asdf plugin-add tanka
   asdf plugin-add terraform
+  asdf plugin-add vagrant
+  asdf plugin-add vim
+  asdf plugin-add yarn
+  asdf plugin-add yq
+
 
   if [ ! -e ~/.zsh/zsh-autosuggestions ]; then
     git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
