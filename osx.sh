@@ -11,20 +11,15 @@ function setup_osx {
 
   debug "Installing all the brew formulas..." "${_GRN}"
   brew update
-  brew install reattach-to-user-namespace --wrap-pbcopy-and-pbpaste
   brew install \
     ag \
-    ansible \
     bash-completion \
     gnupg \
     gpg \
-    gpg-agent \
-    heroku \
     hub \
-    jq \
     nmap \
-    nvm \
     pinentry-mac \
+    reattach-to-user-namespace \
     socat \
     tmux \
     tree \
