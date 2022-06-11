@@ -3,9 +3,9 @@
 function is_wsl {
   if uname -r | grep -q WSL
   then
-    echo "We are inside of a WSL environment"
+    debug "We are inside of a WSL environment" "${_GRN}"
   else
-    echo "WSL Environment not detected"
+    debug "WSL Environment not detected" "${_RED}"
     return
   fi
 }
@@ -13,6 +13,7 @@ function is_wsl {
 function setup_wsl {
   if is_wsl
   then
+    debug "Updating a bunch of packages..." "${_GRN}"
     sudo apt-get update
     sudo apt-get install \
       silversearcher-ag \

@@ -3,8 +3,10 @@
 function setup_linux {
   if is_wsl
   then
+    debug "Detecting a sense of Windows, setting up WSL for ya..." "${_GRN}"
     setup_wsl
   else
+    debug "Updating a bunch of packages..." "${_GRN}"
     sudo apt-get update
     sudo apt-get install \
       silversearcher-ag \
@@ -28,6 +30,7 @@ function setup_linux {
       zsh
   fi
 
+  # debug "Installing font..." "${_GRN}"
   #if [[ ! -e ~/.fonts/AnonymousPro-1.002.001 ]]
   #then
   #  mkdir ~/.fonts
@@ -39,6 +42,7 @@ function setup_linux {
   #  popd
   #fi
 
-  sudo add-apt-repository --yes ppa:martin-frost/thoughtbot-rcm
+  debug "Installing rcup..." "${_GRN}"
+  ludo add-apt-repository --yes ppa:martin-frost/thoughtbot-rcm
   sudo apt-get install -y rcm
 }

@@ -6,14 +6,15 @@ source osx.sh
 source wsl.sh
 
 case ${OSTYPE} in
-  "darwin")
+  "darwin19")
     setup_osx
     ;;
   "linux-gnu")
     setup_linux
     ;;
   *)
-    echo "Unable to complete setup..."
+    debug "Unable to complete setup..." "${_RED}"
+    debug "OSTYPE: ${OSTYPE}"
     ;;
 esac
 

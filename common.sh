@@ -1,11 +1,37 @@
 #!/bin/bash
 
+export _NORM="\\033[0m"
+export _BLK="\\033[0;30m"
+export _BBLK="\\033[1;30m"
+export _RED="\\033[0;31m"
+export _BRED="\\033[1;31m"
+export _GRN="\\033[0;32m"
+export _BGRN="\\033[1;32m"
+export _YEL="\\033[0;33m"
+export _BYEL="\\033[1;33m"
+export _BLU="\\033[0;34m"
+export _BBLU="\\033[1;34m"
+export _MAG="\\033[0;35m"
+export _BMAG="\\033[1;35m"
+export _CYN="\\033[0;36m"
+export _BCYN="\\033[1;36m"
+export _WHT="\\033[0;37m"
+export _BWHT="\\033[1;37m"
+
+debug() {
+  msg=$1
+  color=${2:-${_NORM}}
+  echo -e "${color}${msg}${_NORM}"
+}
+
 function setup_common {
+  debug "Configuring base16-shell" "${_GRN}"
   if [[ ! -e ~/.config/base16-shell ]]
   then
     git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
   fi
 
+  debug "Installing asdf" "${_GRN}"
   if [[ ! -e ~/.asdf ]]
   then
     git clone https://github.com/asdf-vm/asdf.git ~/.asdf
@@ -16,10 +42,11 @@ function setup_common {
   asdf plugin-update --all
 
   if [[ "$SHELL" != $(which zsh) ]]; then
-    echo "changing ${SHELL}"
+    debug "Installing asdf" "${_GRN}"
     chsh -s $(which zsh)
   fi
 
+  debug "Pulling Thoughtbot Dotfiles" "${_GRN}"
   MY_DOTFILES=$HOME/projects/dotfiles
   TB_DOTFILES=$HOME/projects/dotfiles-thoughtbot
 
@@ -35,9 +62,12 @@ function setup_common {
   git pull
   popd
 
+
+  debug "Installing Dotfiles" "${_GRN}"
   rcup -f -d $TB_DOTFILES -x gitconfig -x '*.md' -x LICENSE -x hushlogin -x rcrc
   rcup -f -d $MY_DOTFILES -x README.md -x '*.sh'
 
+  debug "Linking for neovim" "${_GRN}"
   if [[ ! -e ~/.config/nvim ]]; then
     ln -s ~/.vim ~/.config/nvim
   fi
@@ -45,6 +75,7 @@ function setup_common {
     ln -s ~/.vimrc ~/.config/nvim/init.vim
   fi
 
+  debug "All the asdf plugins" "${_GRN}"
   asdf plugin-add 1password-cli
   asdf plugin-add bat
   asdf plugin-add go-jsonnet
@@ -74,9 +105,11 @@ function setup_common {
   asdf plugin-add yq
 
 
+  debug "Clone zsh auto suggestion" "${_GRN}"
   if [ ! -e ~/.zsh/zsh-autosuggestions ]; then
     git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
   fi
 
+  debug "For some reason I unlink this file" "${_GRN}"
   unlink ~/.zsh/configs/keybindings.zsh
 }
