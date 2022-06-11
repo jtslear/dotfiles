@@ -1,8 +1,8 @@
 alias b='bundle install --binstubs ${PWD}/.bin'
 alias be='bundle exec'
 alias cat='bat --style plain'
-alias ls="ls -lahG --color"
-alias sl="ls -lahG --color"
+alias ls="ls -lahG"
+alias sl="ls -lahG"
 alias gcm="git commit -S -m "
 alias gaa="git add -A"
 alias gc="git commit -S --verbose"

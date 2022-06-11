@@ -1,5 +1,6 @@
 [init]
   templatedir = ~/.git_template
+	defaultBranch = main
 [push]
 	default = simple
 [color]
@@ -49,8 +50,8 @@
   path = ~/.gitconfig.local
 [user]
   name = John T Skarbek
-  email = jskarbek@gitlab.com
-	signingkey = B066D9AA565BB2FA
+  email = jtslear@gmail.com
+	signingkey = 5997B93439865A09
 [github]
 	user = jtslear
 [credential]
