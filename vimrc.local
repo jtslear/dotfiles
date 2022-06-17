@@ -40,3 +40,5 @@ if 'VIRTUAL_ENV' in os.environ:
 EOF
 
 "let python_highlight_all=1
+let g:fugitive_gitlab_domains = ['https://gitlab.com']
+let g:gitlab_api_keys = {'gitlab.com': $GITLAB_RO_TOKEN}

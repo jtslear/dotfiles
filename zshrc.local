@@ -202,48 +202,4 @@ then
     exec startx
 fi
 
-ktx() {
-  env=$1
-  zone=$2
-
-  if [[ -n "$zone" ]]; then
-    context=$(kubectx | grep "$env" | grep "us-east1-${zone}_")
-  else
-    context=$(kubectx | grep "$env" | grep "us-east1_")
-  fi
-
-  if [[ -z "$context" ]]; then
-    echo 'No context found.'
-    return 1
-  fi
-
-  echo "Switching to $context"
-  kubectx "$context"
-
-  ip=$(kubectl config view --minify --output json | jq -r .clusters[0].cluster.server | tr -d 'https://')
-
-  echo 'Starting up sshuttle...'
-
-  case $env in
-    gprd)
-      sshuttle -r console-01-sv-gprd.c.gitlab-production.internal "${ip}/32"
-      kubectx gke_gitlab-pre_us-east1_pre-gitlab-gke
-      ;;
-    gstg)
-      sshuttle -r console-01-sv-gstg.c.gitlab-staging-1.internal "${ip}/32"
-      kubectx gke_gitlab-pre_us-east1_pre-gitlab-gke
-      ;;
-    ops)
-      sshuttle -r lb-bastion.ops.gitlab.com "${ip}/32"
-      kubectx gke_gitlab-pre_us-east1_pre-gitlab-gke
-      ;;
-    org-ci)
-      sshuttle -r lb-bastion.org-ci.gitlab.com "${ip}/32"
-      kubectx gke_gitlab-pre_us-east1_pre-gitlab-gke
-      ;;
-    *)
-      echo 'Unsure what env to handle.'
-      return 1
-      ;;
-  esac
-}
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True

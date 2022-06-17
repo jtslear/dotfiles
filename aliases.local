@@ -1,5 +1,6 @@
-alias b='bundle install --binstubs ${PWD}/.bin'
+alias b='bundle install'
 alias be='bundle exec'
+alias bs='bundle binstubs --path ${PWD}/.bin'
 alias cat='bat --style plain'
 alias ls="ls -lahG"
 alias sl="ls -lahG"

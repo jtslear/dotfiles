@@ -41,21 +41,6 @@ bindsym $mod+Shift+q kill
 # change the color
 bindsym $mod+Shift+b exec "curl https://raw.githubusercontent.com/khamer/base16-i3/master/colors/base16-default-dark.config >> ~/.i3/config && i3-msg reload"
 
-set $unmute pactl set-sink-mute $(pacmd list-sinks | grep -e '* index: ' | cut -d' ' -f5) 0
-set $increaseVolume pactl set-sink-volume $(pacmd list-sinks | grep -e '* index: ' | cut -d' ' -f5) +5%
-set $decreaseVolume pactl set-sink-volume $(pacmd list-sinks | grep -e '* index: ' | cut -d' ' -f5) -5%
-set $toggleMute pactl set-sink-mute $(pacmd list-sinks | grep -e '* index: ' | cut -d' ' -f5) toggle
-
-# these should show the output of the volume
-bindsym F1 exec $toggleMute; exec notify-send 'Toggle Speaker Mute'
-bindcode 121 exec $toggleMute; exec notify-send 'Toggle Speaker Mute'
-bindsym F2 exec $unmute; exec $decreaseVolume; exec notify-send 'Volume down'
-bindcode 122 exec $unmute; exec $decreaseVolume; exec notify-send 'Volume down'
-bindsym F3 exec $unmute; exec $increaseVolume; exec notify-send 'Volume up'
-bindcode 123 exec $unmute; exec $increaseVolume; exec notify-send 'Volume up'
-
-bindcode 198 exec amixer set Capture toggle; exec notify-send 'Toggle Mic Mute'
-
 bindsym $mod+d exec "rofi -show run"
 
 exec --no-startup-id xset dpms 900 3600 3600
@@ -65,10 +50,10 @@ exec --no-startup-id xinput set-prop "ETPS/2 Elantech Touchpad" 276 1
 #bindsym $mod+Print --release exec --no-startup-id scrot -s
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -89,7 +74,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+- split h
 
 # split in vertical orientation
 bindsym $mod+v split v
