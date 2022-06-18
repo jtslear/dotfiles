@@ -42,3 +42,8 @@ EOF
 "let python_highlight_all=1
 let g:fugitive_gitlab_domains = ['https://gitlab.com']
 let g:gitlab_api_keys = {'gitlab.com': $GITLAB_RO_TOKEN}
+
+" https://github.com/thoughtbot/dotfiles/issues/656
+augroup ale
+  autocmd!
+augroup END
