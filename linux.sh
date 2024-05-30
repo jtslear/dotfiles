@@ -3,7 +3,7 @@
 function setup_linux {
   if is_wsl
   then
-    debug "Detecting a sense of Windows, setting up WSL for ya..." "${_GRN}"
+    debug "Detecting WSL..." "${_GRN}"
     setup_wsl
   else
     debug "Updating a bunch of packages..." "${_GRN}"

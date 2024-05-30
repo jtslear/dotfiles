@@ -1,3 +1,6 @@
+# Activate Mise
+eval "$(/Users/skarbek/.local/bin/mise activate zsh)"
+
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 # Automatically quote globs in URL and remote references
 # http://superuser.com/questions/420525/scp-with-zsh-no-matches-found
@@ -24,7 +27,7 @@ export BROWSER=/usr/bin/brave-browser
 export GOPATH=$HOME/projects
 export PATH=$PATH:$GOPATH/bin
 
-export PATH=$PATH:${HOME}/.local/bin
+export PATH=$PATH:${HOME}/.bin
 
 if [ -e /usr/local/share/zsh/site-functions/_aws ]; then
   source /usr/local/share/zsh/site-functions/_aws
@@ -87,7 +90,9 @@ calc_elapsed_time () {
 BASE16_SHELL="$HOME/.config/base16-shell/"
 [ -n "$PS1" ] && \
     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-        eval "$("$BASE16_SHELL/profile_helper.sh")"
+        source "$BASE16_SHELL/profile_helper.sh"
+
+base16_material
 
 setopt prompt_subst
 PROMPT='%F{cyan}${timer_result} %{$fg_bold[blue]%}%c%{$reset_color%}%B%F{green}${vcs_info_msg_0_}%B%F{magenta} %{$reset_color%}%% '
@@ -98,8 +103,6 @@ add-zsh-hook precmd  time_precmd
 
 wtf () {
   cat << EOF
-(ノ ゜Д゜)ノ ︵ ┻━┻
-CTRL + Q - binding for tmux
 CTRL + U – Cuts text up until the cursor
 CTRL + K – Cuts text from the cursor until the end of the line
 CTRL + Y – Pastes text
@@ -112,41 +115,11 @@ CTRL + W – Cut word behind cursor
 EOF
 }
 
-notify () {
-  pusher -i 2093 DONE
-}
-
-cycleWifi () {
-  sudo nmcli con down ${1}
-  sudo nmcli con up ${1}
-}
-
-cycleNet () {
-  set -x
-  if [[ -z "${1}" ]]; then
-    wifi=$(nmcli con show | gep wlp61s0 | awk {'pr $1'})
-    cycleWifi ${wifi}
-  else
-    cycleWifi ${1}
-  fi
-  set +x
-}
-
-#eval $(op signin gitlab)
-
-# GPG Agent stuffs
-if [[ -z "$(pgrep gpg-agent)" ]]
-then
-  echo "Starting a gpg agent"
-  eval $(gpgconf --launch gpg-agent)
-else
-  echo "Not starting an agent"
-  clear
-fi
-
 if $(which kubectl 2>&1 > /dev/null)
 then
   source <(kubectl completion zsh)
+else
+  echo "Could not suck in kubectl completions..."
 fi
 
 if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
@@ -162,44 +135,51 @@ fi
 
 bindkey -e # Use emacs key bindings
 
-source $HOME/.asdf/asdf.sh
-source $HOME/.asdf/completions/asdf.bash
 # ruby binstubs - see the aliases file
 export PATH='./.bin':$PATH
 
-# krew
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/skarbek/Downloads/google-cloud-sdk/path.zsh.inc' ]; then source '/home/skarbek/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+gcloud_completion=/Users/skarbek/.local/share/rtx/installs/gcloud/latest/completion.zsh.inc
+gcloud_path=/Users/skarbek/.local/share/rtx/installs/gcloud/latest/path.zsh.inc
+if [ -f ${gcloud_completion} ]; then source ${gcloud_completion}; fi
+if [ -f ${gcloud_completion} ]; then source ${gcloud_path}; fi
 
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/skarbek/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/skarbek/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-
-killall ssh-agent
 unset SSH_AGENT_PID
 if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+  export SSH_AUTH_SOCK="/opt/homebrew/var/run/yubikey-agent.sock"
 fi
-gpg-connect-agent updatestartuptty /bye
+#gpg-connect-agent updatestartuptty /bye
 
-if [ -e ~/.gitlab-env ]; then
-  source ~/.gitlab-env
-fi
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 gmr() {
-  if [[ $# -gt 0 ]]
-  then
+  local default_branch=$(git remote show origin | awk '/HEAD branch/ {print $NF}')
+  if [[ $# -gt 0 ]]; then
     git log --reverse --format="### %H - %s%n%n%b" "$@"
   else
-    git log --reverse --format="### %H - %s%n%n%b" HEAD...master
+    git log --reverse --format="### %H - %s%n%n%b" HEAD...${default_branch}
   fi
 }
 
-# start X if on TTY 1
-if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]]
-then
-    exec startx
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+login1p() {
+  eval "$(op signin --account gitlab.1password.com)"
+  direnv reload
+}
+
+if $(which direnv 2>&1 > /dev/null); then
+  eval "$(direnv hook zsh)"
+else
+  echo "Could not source in direnv..."
 fi
 
-export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+key=$(ykman list -s)
+if [[ -n ${key} ]]; then
+  echo "Setting git signing key to ${key}"
+  git config --global user.signingkey ~/.ssh/${key}.pub
+else
+  echo "No key inserted!"
+fi
+eval "$(glsh vault init -)"
+

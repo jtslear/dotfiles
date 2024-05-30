@@ -25,24 +25,49 @@ debug() {
 }
 
 function setup_common {
-  debug "Configuring base16-shell" "${_GRN}"
+  debug "Installing base16-shell" "${_GRN}"
   if [[ ! -e ~/.config/base16-shell ]]
   then
     git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
   fi
 
-  debug "Installing asdf" "${_GRN}"
-  if [[ ! -e ~/.asdf ]]
+  debug "Installing rtx" "${_GRN}"
+  rtx_bin_dir="${HOME}/.bin"
+  if [[ ! -e "${rtx_bin_dir}/rtx" ]]
   then
-    git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+    curl -o ${rtx_bin_dir}/rtx https://rtx.pub/rtx-latest-macos-arm64
+    chmod +x ${rtx_bin_dir}/rtx
   fi
 
-  . $HOME/.asdf/asdf.sh
-  asdf update
-  asdf plugin-update --all
+  rtx install 1password-cli
+  rtx install gcloud
+  rtx install go-jsonnet
+  rtx install golang
+  rtx install helm
+  rtx install helmfile
+  rtx install jq
+  rtx install jsonnet-bundler
+  rtx install k9s
+  rtx install kind
+  rtx install kubectl
+  rtx install kubespy
+  rtx install kustomize
+  rtx install minikube
+  rtx install minio
+  rtx install neovim
+  rtx install nodejs
+  rtx install postgres
+  rtx install python
+  rtx install redis
+  rtx install ruby
+  rtx install tanka
+  rtx install terraform
+  rtx install vim
+  rtx install yarn
+  rtx install yq
 
   if [[ "$SHELL" != $(which zsh) ]]; then
-    debug "Installing asdf" "${_GRN}"
+    debug "Changing default shell to zsh" "${_GRN}"
     chsh -s $(which zsh)
   fi
 
@@ -62,54 +87,26 @@ function setup_common {
   git pull
   popd
 
-
   debug "Installing Dotfiles" "${_GRN}"
   rcup -f -d $TB_DOTFILES -x gitconfig -x '*.md' -x LICENSE -x hushlogin -x rcrc
   rcup -f -d $MY_DOTFILES -x README.md -x '*.sh'
 
-  debug "Linking for neovim" "${_GRN}"
   if [[ ! -e ~/.config/nvim ]]; then
+    debug "Linking for neovim" "${_GRN}"
     ln -s ~/.vim ~/.config/nvim
   fi
   if [[ ! -e ~/.config/nvim/init.vim ]]; then
+    debug "Link something related to neovim" "${_GRN}"
     ln -s ~/.vimrc ~/.config/nvim/init.vim
   fi
 
-  debug "All the asdf plugins" "${_GRN}"
-  asdf plugin-add 1password-cli
-  asdf plugin-add bat
-  asdf plugin-add go-jsonnet
-  asdf plugin-add golang
-  asdf plugin-add helm
-  asdf plugin-add helmfile
-  asdf plugin-add jsonnet-bundler
-  asdf plugin-add k9s
-  asdf plugin-add kind
-  asdf plugin-add kubectl
-  asdf plugin-add kubespy
-  asdf plugin-add kubetail
-  asdf plugin-add kustomize
-  asdf plugin-add minikube
-  asdf plugin-add minio
-  asdf plugin-add neovim
-  asdf plugin-add nodejs
-  asdf plugin-add postgres
-  asdf plugin-add python
-  asdf plugin-add redis
-  asdf plugin-add ruby
-  asdf plugin-add tanka
-  asdf plugin-add terraform
-  asdf plugin-add vagrant
-  asdf plugin-add vim
-  asdf plugin-add yarn
-  asdf plugin-add yq
-
-
-  debug "Clone zsh auto suggestion" "${_GRN}"
   if [ ! -e ~/.zsh/zsh-autosuggestions ]; then
+    debug "Clone zsh auto suggestion" "${_GRN}"
     git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
   fi
 
-  debug "For some reason I unlink this file" "${_GRN}"
-  unlink ~/.zsh/configs/keybindings.zsh
+  if [ ! -e ~/.zsh/configs/keybindings.zsh ]; then
+    debug "For some reason I unlink this file" "${_GRN}"
+    unlink ~/.zsh/configs/keybindings.zsh
+  fi
 }

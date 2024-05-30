@@ -59,3 +59,15 @@
 	UseHttpPath = true
 [pull]
 	rebase = false
+[gpg]
+	format = ssh
+[rerere]
+	enabled = true
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate
+[maintenance]
+	repo = /Users/skarbek/projects/dedicated/instrumentor
+	repo = /Users/skarbek/projects/gitlab
+	repo = /Users/skarbek/projects/www-gitlab-com

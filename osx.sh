@@ -3,7 +3,8 @@
 function setup_osx {
   if [[ ! $(type brew) ]]; then
     debug "Installing brew..." "${_GRN}"
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   eval "$(/opt/homebrew/bin/brew shellenv)"
   fi
 
   debug "Tapping for some kegs..." "${_GRN}"
@@ -13,18 +14,28 @@ function setup_osx {
   brew update
   brew install \
     ag \
+    awscli \
     bash-completion \
+    bat \
+    ctags \
+    coreutils \
     gnupg \
     gpg \
     hub \
+    jq \
+    libyaml \
     nmap \
     pinentry-mac \
     reattach-to-user-namespace \
     socat \
     tmux \
     tree \
-    watch
+    watch \
+    ykman
 
-  debug "Run an upgrade if I haven't run this in awhile..." "${_GRN}"
+  brew install --cask amethyst
+  brew install --cask 1password/tap/1password-cli
+
+  debug "Run a brew upgrade..." "${_GRN}"
   brew upgrade
 }
