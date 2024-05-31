@@ -43,6 +43,6 @@ function setup_linux {
   #fi
 
   debug "Installing rcup..." "${_GRN}"
-  ludo add-apt-repository --yes ppa:martin-frost/thoughtbot-rcm
+  sudo add-apt-repository --yes ppa:martin-frost/thoughtbot-rcm
   sudo apt-get install -y rcm
 }

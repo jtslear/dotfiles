@@ -18,53 +18,55 @@ export _BCYN="\\033[1;36m"
 export _WHT="\\033[0;37m"
 export _BWHT="\\033[1;37m"
 
-debug() {
+function debug() {
   msg=$1
   color=${2:-${_NORM}}
   echo -e "${color}${msg}${_NORM}"
 }
 
-function setup_common {
+function setup_common() {
   debug "Installing base16-shell" "${_GRN}"
   if [[ ! -e ~/.config/base16-shell ]]
   then
     git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
   fi
 
-  debug "Installing rtx" "${_GRN}"
-  rtx_bin_dir="${HOME}/.bin"
-  if [[ ! -e "${rtx_bin_dir}/rtx" ]]
-  then
-    curl -o ${rtx_bin_dir}/rtx https://rtx.pub/rtx-latest-macos-arm64
-    chmod +x ${rtx_bin_dir}/rtx
+  debug "Installing mise" "${_GRN}"
+  if [[ ! "$(${HOME}/.local/bin/mise --version)" ]]; then
+    local mise_exec="mise_install.sh"
+    curl -o "${mise_exec}" https://mise.run
+    chmod +x "${mise_exec}"
+    ./"${mise_exec}"
+    rm "${mise_exec}"
+    eval "$(${HOME}/.local/bin/mise activate zsh)"
   fi
 
-  rtx install 1password-cli
-  rtx install gcloud
-  rtx install go-jsonnet
-  rtx install golang
-  rtx install helm
-  rtx install helmfile
-  rtx install jq
-  rtx install jsonnet-bundler
-  rtx install k9s
-  rtx install kind
-  rtx install kubectl
-  rtx install kubespy
-  rtx install kustomize
-  rtx install minikube
-  rtx install minio
-  rtx install neovim
-  rtx install nodejs
-  rtx install postgres
-  rtx install python
-  rtx install redis
-  rtx install ruby
-  rtx install tanka
-  rtx install terraform
-  rtx install vim
-  rtx install yarn
-  rtx install yq
+  mise install -y 1password-cli
+  mise install -y gcloud
+  mise install -y go-jsonnet
+  mise install -y golang
+  mise install -y helm
+  mise install -y helmfile
+  mise install -y jq
+  mise install -y jsonnet-bundler
+  mise install -y k9s
+  mise install -y kind
+  mise install -y kubectl
+  mise install -y kubespy
+  mise install -y kustomize
+  mise install -y minikube
+  mise install -y minio
+  mise install -y neovim
+  mise install -y nodejs
+  mise install -y postgres
+  mise install -y python
+  mise install -y redis
+  mise install -y ruby
+  mise install -y tanka
+  mise install -y terraform
+  mise install -y vim
+  mise install -y yarn
+  mise install -y yq
 
   if [[ "$SHELL" != $(which zsh) ]]; then
     debug "Changing default shell to zsh" "${_GRN}"

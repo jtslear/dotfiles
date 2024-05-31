@@ -16,16 +16,22 @@ function setup_wsl {
     debug "Updating a bunch of packages..." "${_GRN}"
     sudo apt-get update
     sudo apt-get install \
-      silversearcher-ag \
       bash-completion \
+      cmake \
       gnupg \
       gpg \
       gpg-agent \
       jq \
+      libgrpc-dev \
+      make \
       nmap \
+      protobuf-compiler-grpc \
+      python3-grpc-tools \
+      silversearcher-ag \
       socat \
       tmux \
       tree \
+      unzip \
       watch \
       zsh
   fi

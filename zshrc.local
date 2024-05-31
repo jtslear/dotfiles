@@ -1,5 +1,5 @@
 # Activate Mise
-eval "$(/Users/skarbek/.local/bin/mise activate zsh)"
+eval "$(${HOME}/.local/bin/mise activate zsh)"
 
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 # Automatically quote globs in URL and remote references
