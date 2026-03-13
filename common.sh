@@ -98,34 +98,38 @@ function setup_common() {
     eval "$(${HOME}/.local/bin/mise activate zsh)"
   fi
 
-  mise install -y 1password-cli
-  mise install -y gcloud
-  mise install -y go-jsonnet
-  mise install -y golang
-  mise install -y helm
-  mise install -y helmfile
-  mise install -y jq
-  mise install -y jsonnet-bundler
-  mise install -y k9s
-  mise install -y kind
-  mise install -y kubectl
-  mise install -y kubespy
-  mise install -y kustomize
-  mise install -y minikube
-  mise install -y minio
-  mise install -y neovim
-  mise install -y nodejs
-  mise install -y postgres
-  mise install -y python
-  mise install -y redis
-  mise install -y ruby
-  mise install -y tanka
-  mise install -y terraform
-  mise install -y vim
-  mise install -y yarn
-  mise install -y yq
+  if [[ -z "$SKIP_MISE_TOOLS" ]]; then
+    mise install -y 1password-cli
+    mise install -y gcloud
+    mise install -y go-jsonnet
+    mise install -y golang
+    mise install -y helm
+    mise install -y helmfile
+    mise install -y jq
+    mise install -y jsonnet-bundler
+    mise install -y k9s
+    mise install -y kind
+    mise install -y kubectl
+    mise install -y kubespy
+    mise install -y kustomize
+    mise install -y minikube
+    mise install -y minio
+    mise install -y neovim
+    mise install -y nodejs
+    mise install -y postgres
+    mise install -y python
+    mise install -y redis
+    mise install -y ruby
+    mise install -y tanka
+    mise install -y terraform
+    mise install -y vim
+    mise install -y yarn
+    mise install -y yq
+  else
+    debug "Skipping mise tool installations (SKIP_MISE_TOOLS is set)" "${_GRN}"
+  fi
 
-  if [[ "$SHELL" != $(which zsh) ]]; then
+  if ! command -v zsh >/dev/null 2>&1 || [[ "$SHELL" != "$(command -v zsh)" ]]; then
     debug "Changing default shell to zsh" "${_GRN}"
     chsh -s $(which zsh)
   fi
