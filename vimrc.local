@@ -42,10 +42,6 @@ augroup END
 
 set clipboard=unnamed
 
-call plug#begin()
-Plug 'preservim/nerdtree'
-call plug#end()
-
 " use `n` to open nerdtree
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
