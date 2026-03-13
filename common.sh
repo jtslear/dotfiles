@@ -88,6 +88,9 @@ function setup_common() {
     git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
   fi
 
+  debug "Setting up vim base16 colorscheme" "${_GRN}"
+  echo 'colorscheme base16-material' > ~/.vimrc_background
+
   debug "Installing mise" "${_GRN}"
   if [[ ! "$(${HOME}/.local/bin/mise --version)" ]]; then
     local mise_exec="mise_install.sh"
@@ -129,9 +132,9 @@ function setup_common() {
     debug "Skipping mise tool installations (SKIP_MISE_TOOLS is set)" "${_GRN}"
   fi
 
-  if ! command -v zsh >/dev/null 2>&1 || [[ "$SHELL" != "$(command -v zsh)" ]]; then
+  if command -v zsh >/dev/null 2>&1 && [[ "$(basename "$SHELL")" != "zsh" ]]; then
     debug "Changing default shell to zsh" "${_GRN}"
-    chsh -s $(which zsh)
+    chsh -s "$(which zsh)"
   fi
 
   debug "Pulling Thoughtbot Dotfiles" "${_GRN}"
