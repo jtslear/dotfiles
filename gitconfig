@@ -51,7 +51,7 @@
 [user]
   name = John T Skarbek
   email = jtslear@gmail.com
-	signingkey = 5997B93439865A09
+	signingkey = ~/.ssh/id_ed25519
 [github]
 	user = jtslear
 [credential]
