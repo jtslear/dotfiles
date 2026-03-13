@@ -24,6 +24,63 @@ function debug() {
   echo -e "${color}${msg}${_NORM}"
 }
 
+function is_bazzite_based() {
+  if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    case "$ID" in
+      bazzite)
+        return 0
+        ;;
+      *)
+        return 1
+        ;;
+    esac
+  fi
+}
+
+
+function is_debian_based() {
+  if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    case "$ID" in
+      ubuntu|debian|raspbian)
+        return 0
+        ;;
+      *)
+        return 1
+        ;;
+    esac
+  fi
+
+  # Fallback for older systems without /etc/os-release
+  if [ -f /etc/debian_version ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+function is_fedora_based() {
+  if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    case "$ID" in
+      fedora|centos)
+        return 0
+        ;;
+      *)
+        return 1
+        ;;
+    esac
+  fi
+
+  # Fallback for older systems without /etc/os-release
+  if [ -f /etc/fedora-release ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
 function setup_common() {
   debug "Installing base16-shell" "${_GRN}"
   if [[ ! -e ~/.config/base16-shell ]]
