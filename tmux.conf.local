@@ -29,10 +29,10 @@ set-option -g prefix C-q
 set-option -g history-limit 10000
 
 #add logical splits
-bind | split-window -h
-bind \\ split-window -h
-bind - split-window -v
-bind _ split-window -v
+bind | split-window -h -c "#{pane_current_path}"
+bind \\ split-window -h -c "#{pane_current_path}"
+bind - split-window -v -c "#{pane_current_path}"
+bind _ split-window -v -c "#{pane_current_path}"
 
 #resize panes with arrow keys
 unbind Right

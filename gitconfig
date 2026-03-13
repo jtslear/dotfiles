@@ -50,8 +50,14 @@
   path = ~/.gitconfig.local
 [user]
   name = John T Skarbek
-  email = jtslear@gmail.com
-	signingkey = ~/.ssh/id_ed25519
+  email = jskarbek@gitlab.com
+	signingkey = ~/.ssh/git_operations.pub
+
+# Use different signing key for GitHub repos
+[includeIf "hasconfig:remote.*.url:git@github.com:*/**"]
+  path = ~/.gitconfig-github
+[includeIf "hasconfig:remote.*.url:https://github.com/**"]
+  path = ~/.gitconfig-github
 [github]
 	user = jtslear
 [credential]
@@ -73,3 +79,14 @@
 	repo = /Users/skarbek/projects/dedicated/instrumentor
 	repo = /Users/skarbek/projects/gitlab
 	repo = /Users/skarbek/projects/www-gitlab-com
+	repo = /Users/skarbek/projects/gdk
+	repo = /Users/skarbek/projects/gdk/gitlab
+[url "ssh://git@gitlab.com/"]
+  insteadOf = https://gitlab.com/
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[diff]
+	colorMoved = blocks

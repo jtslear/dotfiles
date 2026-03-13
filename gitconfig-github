@@ -1,0 +1,6 @@
+# GitHub-specific git config
+# This is conditionally included for repos with GitHub remotes
+
+[user]
+	signingkey = ~/.ssh/github.pub
+	email = jtslear@gmail.com

@@ -1,7 +1,7 @@
 unsetopt EXTENDED_GLOB
 
 # Machine type detection (personal vs work)
-# Set via: echo "personal" > ~/.machine_type
+# Set via: echo "personal" > ~/.machine_type  OR  echo "work" > ~/.machine_type
 IS_PERSONAL_MACHINE=false
 if [[ -f ~/.machine_type ]] && [[ "$(cat ~/.machine_type)" == "personal" ]]; then
   IS_PERSONAL_MACHINE=true
@@ -44,6 +44,7 @@ export GOPATH=$HOME/projects
 export PATH=$PATH:$GOPATH/bin
 
 export PATH=$PATH:${HOME}/.bin
+export PATH=$PATH:${HOME}/.local/bin
 
 if [ -e /usr/local/share/zsh/site-functions/_aws ]; then
   source /usr/local/share/zsh/site-functions/_aws
@@ -185,8 +186,12 @@ gmr() {
 
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
-login1p() {
+1p() {
   eval "$(op signin --account gitlab.1password.com)"
+  if [ $? -eq 0 ]; then
+    echo "Getting canonical credentials"
+    export GITLAB_TOKEN=$(op item get --fields label=password 'GitLab Skills' --reveal)
+  fi
   direnv reload
 }
 
@@ -196,22 +201,47 @@ else
   echo "Could not source in direnv..." >&2
 fi
 
-# YubiKey setup - only on work machines
-if [[ "$IS_PERSONAL_MACHINE" != true ]]; then
-  # Check if ykman is available before using it
-  if command -v ykman >/dev/null 2>&1; then
-    key=$(ykman list -s)
-    if [[ -n ${key} ]]; then
-      echo "Setting git signing key to ${key}"
-      git config --global user.signingkey ~/.ssh/${key}.pub
-    else
-      echo "No key inserted!"
-    fi
-  else
-    echo "Warning: ykman is not installed, YubiKey functionality won't be available." >&2
-  fi
-fi
-
 if command -v glsh >/dev/null 2>&1; then
   eval "$(glsh vault init -)"
+fi
+
+# Work-specific: find which branches/tags contain a commit
+whereis() {
+  local commit=$1
+  local project=${2:-"gitlab"}
+  local tag_q=${3:-"false"}
+
+  if [[ ${tag_q} == "true" ]]; then
+    echo "Looking for tags for ${commit} in ${project}"
+    pushd ~/projects/${project}
+    git pull security --tags
+    git tag --list | while read tag;
+    do
+      git log --pretty=format:'%H' $tag | grep -q -F ${commit};
+      [[ $? -ne 0 ]] && return 2 || echo "$tag";
+    done
+    exit 0
+  fi
+
+  echo "Looking for branches for ${commit} in ${project}"
+
+  pushd ~/projects/${project}
+  git pull security
+  git branch --list --all | grep -F security | grep -F auto-deploy | while read branch;
+  do
+    git log --pretty=format:'%H' $branch | grep -q -F ${commit};
+    [[ $? -ne 0 ]] && return 2 || echo "$branch";
+  done
+}
+
+# Rename tmux window to current directory
+if [ -n "$TMUX" ]; then
+  chpwd() {
+    tmux rename-window "$(basename "$PWD")"
+  }
+fi
+
+# zoxide for smarter cd
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
 fi

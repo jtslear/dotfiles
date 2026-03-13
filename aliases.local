@@ -1,6 +1,8 @@
+alias c='claude'
 alias b='bundle install'
 alias be='bundle exec'
 alias bs='bundle binstubs --path ${PWD}/.bin'
+
 alias ls="ls -lahG"
 alias o="opencode"
 alias sl="ls -lahG"
@@ -9,6 +11,7 @@ alias gaa="git add -A"
 alias gc="git commit -S --verbose"
 alias gd="git diff"
 alias gp="git pull"
+alias gpf="git push --force-with-lease"
 alias gs="git status"
 alias gca="gcloud config configurations activate"
 alias gcl="gcloud config configurations list"
@@ -20,8 +23,15 @@ alias kc="kitchen converge"
 alias kv="kitchen verify"
 alias :q=exit
 alias watchk="watch kubectl get pods"
+alias msie=mise
 
 if type nvim > /dev/null 2>&1; then
   alias vim='nvim'
   alias vi='nvim'
 fi
+
+alias pmvno="export SKIP_PMV_AUTOLOAD=true"
+alias pmvyes="unset SKIP_PMV_AUTOLOAD"
+alias tfmt="tf fmt **/**.tf"
+
+alias ag="ag --hidden"
