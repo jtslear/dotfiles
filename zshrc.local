@@ -1,3 +1,10 @@
+# Machine type detection (personal vs work)
+# Set via: echo "personal" > ~/.machine_type
+IS_PERSONAL_MACHINE=false
+if [[ -f ~/.machine_type ]] && [[ "$(cat ~/.machine_type)" == "personal" ]]; then
+  IS_PERSONAL_MACHINE=true
+fi
+
 # Activate Mise
 eval "$(${HOME}/.local/bin/mise activate zsh)"
 
@@ -174,12 +181,15 @@ else
   echo "Could not source in direnv..."
 fi
 
-key=$(ykman list -s)
-if [[ -n ${key} ]]; then
-  echo "Setting git signing key to ${key}"
-  git config --global user.signingkey ~/.ssh/${key}.pub
-else
-  echo "No key inserted!"
+# YubiKey setup - only on work machines
+if [[ "$IS_PERSONAL_MACHINE" != true ]]; then
+  key=$(ykman list -s)
+  if [[ -n ${key} ]]; then
+    echo "Setting git signing key to ${key}"
+    git config --global user.signingkey ~/.ssh/${key}.pub
+  else
+    echo "No key inserted!"
+  fi
 fi
 eval "$(glsh vault init -)"
 
