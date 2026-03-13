@@ -3,7 +3,6 @@
 source common.sh
 source linux.sh
 source osx.sh
-source wsl.sh
 
 case ${OSTYPE} in
   "darwin22")
