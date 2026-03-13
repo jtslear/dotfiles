@@ -8,6 +8,7 @@ function setup_linux {
     sudo apt-get install -y \
       silversearcher-ag \
       bash-completion \
+      vim \
       flameshot \
       gnupg \
       gpg \
@@ -34,6 +35,7 @@ function setup_linux {
     sudo dnf install -y \
       the_silver_searcher \
       bash-completion \
+      vim-enhanced \
       flameshot \
       gnupg \
       gpg \
@@ -55,6 +57,7 @@ function setup_linux {
     brew install \
       the_silver_searcher \
       rcm \
+      vim \
       zsh
   else
     debug "Unknown Linux distribution. Skipping package installation." "${_RED}"
