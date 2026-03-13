@@ -1,9 +1,14 @@
+unsetopt EXTENDED_GLOB
+
 # Machine type detection (personal vs work)
 # Set via: echo "personal" > ~/.machine_type
 IS_PERSONAL_MACHINE=false
 if [[ -f ~/.machine_type ]] && [[ "$(cat ~/.machine_type)" == "personal" ]]; then
   IS_PERSONAL_MACHINE=true
 fi
+
+# make the delete key work
+bindkey "^[[3~" delete-char
 
 # Activate Mise
 eval "$(${HOME}/.local/bin/mise activate zsh)"
@@ -25,7 +30,11 @@ fpath=(/usr/local/share/zsh-completions $fpath)
 autoload -Uz compinit
 compinit
 # Completion for kitty
-kitty + complete setup zsh | source /dev/stdin
+if command -v kitty >/dev/null 2>&1; then
+  kitty + complete setup zsh | source /dev/stdin
+else
+  echo "Warning: Kitty is not installed, shell completion won't be available." >&2
+fi
 
 export EDITOR=nvim
 export VISUAL=nvim
@@ -122,11 +131,10 @@ CTRL + W – Cut word behind cursor
 EOF
 }
 
-if $(which kubectl 2>&1 > /dev/null)
-then
+if command -v kubectl >/dev/null 2>&1; then
   source <(kubectl completion zsh)
 else
-  echo "Could not suck in kubectl completions..."
+  echo "Could not suck in kubectl completions..." >&2
 fi
 
 if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
@@ -157,7 +165,9 @@ if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
 fi
 #gpg-connect-agent updatestartuptty /bye
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+if command -v /opt/homebrew/bin/brew >/dev/null 2>&1; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
 gmr() {
   local default_branch=$(git remote show origin | awk '/HEAD branch/ {print $NF}')
@@ -175,21 +185,28 @@ login1p() {
   direnv reload
 }
 
-if $(which direnv 2>&1 > /dev/null); then
+if command -v direnv >/dev/null 2>&1; then
   eval "$(direnv hook zsh)"
 else
-  echo "Could not source in direnv..."
+  echo "Could not source in direnv..." >&2
 fi
 
 # YubiKey setup - only on work machines
 if [[ "$IS_PERSONAL_MACHINE" != true ]]; then
-  key=$(ykman list -s)
-  if [[ -n ${key} ]]; then
-    echo "Setting git signing key to ${key}"
-    git config --global user.signingkey ~/.ssh/${key}.pub
+  # Check if ykman is available before using it
+  if command -v ykman >/dev/null 2>&1; then
+    key=$(ykman list -s)
+    if [[ -n ${key} ]]; then
+      echo "Setting git signing key to ${key}"
+      git config --global user.signingkey ~/.ssh/${key}.pub
+    else
+      echo "No key inserted!"
+    fi
   else
-    echo "No key inserted!"
+    echo "Warning: ykman is not installed, YubiKey functionality won't be available." >&2
   fi
 fi
-eval "$(glsh vault init -)"
 
+if command -v glsh >/dev/null 2>&1; then
+  eval "$(glsh vault init -)"
+fi
