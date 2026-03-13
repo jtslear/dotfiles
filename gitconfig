@@ -67,6 +67,8 @@
 	ui = auto
 [branch]
 	sort = -committerdate
+[url "git@github.com:"]
+	insteadOf = https://github.com/
 [maintenance]
 	repo = /Users/skarbek/projects/dedicated/instrumentor
 	repo = /Users/skarbek/projects/gitlab
