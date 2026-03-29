@@ -75,5 +75,6 @@ set-option -g destroy-unattached off
 set-option -g set-titles
 set-window-option -g automatic-rename on
 set-window-option -g monitor-activity on
+set-option -g bell-action none
 
 set escape-time 0
