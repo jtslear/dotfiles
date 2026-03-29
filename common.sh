@@ -49,27 +49,26 @@ function is_bazzite_based() {
   if [ -f /etc/os-release ]; then
     . /etc/os-release
     case "$ID" in
-      bazzite)
-        return 0
-        ;;
-      *)
-        return 1
-        ;;
+    bazzite)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
     esac
   fi
 }
-
 
 function is_debian_based() {
   if [ -f /etc/os-release ]; then
     . /etc/os-release
     case "$ID" in
-      ubuntu|debian|raspbian)
-        return 0
-        ;;
-      *)
-        return 1
-        ;;
+    ubuntu | debian | raspbian)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
     esac
   fi
 
@@ -85,12 +84,12 @@ function is_fedora_based() {
   if [ -f /etc/os-release ]; then
     . /etc/os-release
     case "$ID" in
-      fedora|centos)
-        return 0
-        ;;
-      *)
-        return 1
-        ;;
+    fedora | centos)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
     esac
   fi
 
@@ -104,13 +103,12 @@ function is_fedora_based() {
 
 function setup_common() {
   debug "Installing base16-shell" "${_GRN}"
-  if [[ ! -e ~/.config/base16-shell ]]
-  then
+  if [[ ! -e ~/.config/base16-shell ]]; then
     git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
   fi
 
   debug "Setting up vim base16 colorscheme" "${_GRN}"
-  echo 'colorscheme base16-material' > ~/.vimrc_background
+  echo 'colorscheme base16-material' >~/.vimrc_background
 
   if [[ "${OSTYPE}" == "linux-gnu" ]]; then
     install_nerd_fonts

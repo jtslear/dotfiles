@@ -1,8 +1,7 @@
 #!/bin/bash
 
 function setup_linux {
-  if is_debian_based
-  then
+  if is_debian_based; then
     debug "Updating packages on Debian-based system..." "${_GRN}"
     sudo apt-get update
     sudo apt-get install -y \
@@ -28,8 +27,7 @@ function setup_linux {
       xautolock \
       zsh
 
-  elif is_fedora_based
-  then
+  elif is_fedora_based; then
     debug "Updating packages on Fedora-based system..." "${_GRN}"
     sudo dnf check-update
     sudo dnf install -y \
@@ -51,8 +49,7 @@ function setup_linux {
       watch \
       zsh
 
-  elif is_bazzite_based
-  then
+  elif is_bazzite_based; then
     debug "Updating packages on Bazzite system..." "${_GRN}"
     brew install \
       the_silver_searcher \
