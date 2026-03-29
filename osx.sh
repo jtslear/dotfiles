@@ -33,6 +33,9 @@ function setup_osx {
     watch \
     ykman
 
+  debug "Installing Nerd Fonts..." "${_GRN}"
+  brew install --cask font-jetbrains-mono-nerd-font
+
   brew install --cask amethyst
   brew install --cask 1password/tap/1password-cli
 

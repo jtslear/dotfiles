@@ -18,6 +18,27 @@ export _BCYN="\\033[1;36m"
 export _WHT="\\033[0;37m"
 export _BWHT="\\033[1;37m"
 
+function install_nerd_fonts() {
+  local font_dir="${HOME}/.local/share/fonts/JetBrainsMonoNerdFont"
+
+  if [[ -d "${font_dir}" ]]; then
+    debug "JetBrainsMono Nerd Font already installed" "${_GRN}"
+    return 0
+  fi
+
+  debug "Installing JetBrainsMono Nerd Font..." "${_GRN}"
+  mkdir -p "${font_dir}"
+
+  local zip_file="/tmp/JetBrainsMono.zip"
+  curl -fLo "${zip_file}" "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip"
+  unzip -o "${zip_file}" -d "${font_dir}"
+  rm "${zip_file}"
+
+  if command -v fc-cache >/dev/null 2>&1; then
+    fc-cache -fv
+  fi
+}
+
 function debug() {
   msg=$1
   color=${2:-${_NORM}}
@@ -91,6 +112,10 @@ function setup_common() {
   debug "Setting up vim base16 colorscheme" "${_GRN}"
   echo 'colorscheme base16-material' > ~/.vimrc_background
 
+  if [[ "${OSTYPE}" == "linux-gnu" ]]; then
+    install_nerd_fonts
+  fi
+
   debug "Installing mise" "${_GRN}"
   if [[ ! "$(${HOME}/.local/bin/mise --version)" ]]; then
     local mise_exec="mise_install.sh"
@@ -155,7 +180,7 @@ function setup_common() {
 
   debug "Installing Dotfiles" "${_GRN}"
   rcup -f -d $TB_DOTFILES -x gitconfig -x '*.md' -x LICENSE -x hushlogin -x rcrc
-  rcup -f -d $MY_DOTFILES -x README.md -x '*.sh'
+  rcup -f -d $MY_DOTFILES -t config -x README.md -x '*.sh'
 
   if [[ ! -e ~/.config/nvim ]]; then
     debug "Linking for neovim" "${_GRN}"

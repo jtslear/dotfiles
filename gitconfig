@@ -51,7 +51,7 @@
 [user]
   name = John T Skarbek
   email = jskarbek@gitlab.com
-	signingkey = ~/.ssh/git_operations.pub
+	signingkey = ~/.ssh/id_ed25519.pub
 
 # Use different signing key for GitHub repos
 [includeIf "hasconfig:remote.*.url:git@github.com:*/**"]
