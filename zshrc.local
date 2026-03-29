@@ -1,4 +1,5 @@
 unsetopt EXTENDED_GLOB
+setopt INTERACTIVE_COMMENTS
 
 # Machine type detection (personal vs work)
 # Set via: echo "personal" > ~/.machine_type  OR  echo "work" > ~/.machine_type
