@@ -4,7 +4,6 @@ Personal dotfiles extending [thoughtbot/dotfiles](https://github.com/thoughtbot/
 | Command | Description |
 |---------|-------------|
 | `./setup.sh` | Full installation |
-| `SKIP_MISE_TOOLS=true ./setup.sh` | Skip mise tools |
 | `shfmt -w *.sh` | Format shell scripts |
 | `shellcheck *.sh` | Lint shell scripts |
 
