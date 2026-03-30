@@ -72,7 +72,8 @@ bind R source-file ~/.tmux.conf \; display-message "Config reloaded..."
 set-option -g default-shell $SHELL
 set-option -g default-command "${SHELL}"
 set-option -g destroy-unattached off
-set-option -g set-titles
+set-option -g set-titles on
+set-option -g set-titles-string "#{window_name} | #{pane_current_command} - #{pane_title}"
 set-window-option -g automatic-rename on
 set-window-option -g monitor-activity on
 set-option -g bell-action none
