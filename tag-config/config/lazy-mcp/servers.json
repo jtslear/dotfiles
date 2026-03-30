@@ -1,0 +1,27 @@
+{
+  "servers": [
+    {
+      "name": "gcloud",
+      "description": "Google Cloud CLI integration",
+      "command": ["npx", "-y", "@google-cloud/gcloud-mcp"]
+    },
+    {
+      "name": "kubernetes",
+      "description": "Kubernetes cluster management",
+      "command": ["npx", "-y", "kubernetes-mcp-server@latest"],
+      "env": {
+        "KUBECONFIG": "/Users/skarbek/.kube/config"
+      }
+    },
+    {
+      "name": "glean",
+      "description": "Glean enterprise search",
+      "command": ["npx", "mcp-remote@latest", "https://gitlab-be.glean.com/mcp/default"]
+    },
+    {
+      "name": "grep-app",
+      "description": "Search public GitHub repositories",
+      "url": "https://mcp.grep.app"
+    }
+  ]
+}

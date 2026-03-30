@@ -1,13 +1,14 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "mcp": {
-    "kubernetes": {
-      "type": "local",
-      "command": ["npx", "mcp-server-kubernetes"]
-    }
-  },
+  "default_agent": "plan",
+  "model": "gitlab/duo-chat",
+  "small_model": "gitlab/duo-chat-haiku-4-5",
+  "share": "disabled",
   "plugin": [
+    "opencode-skills",
     "@gitlab/opencode-gitlab-plugin",
+    "@gitlab/opencode-gitlab-auth",
+    "opencode-agent-memory@0.2.0",
     "opencode-mermaid-formatter"
   ],
   "provider": {
@@ -18,7 +19,52 @@
           "duo_agent_platform_agentic_chat": true,
           "duo_agent_platform": true
         }
+      },
+      "models": {
+        "duo-chat-haiku-4-5": {
+          "cost": {
+            "input": 0.8,
+            "output": 4
+          }
+        },
+        "duo-chat-sonnet-4-5": {
+          "cost": {
+            "input": 3,
+            "output": 15
+          }
+        },
+        "duo-chat-opus-4-5": {
+          "cost": {
+            "input": 15,
+            "output": 75
+          }
+        },
+        "duo-chat-haiku-4-6": {
+          "cost": {
+            "input": 0.8,
+            "output": 4
+          }
+        },
+        "duo-chat-sonnet-4-6": {
+          "cost": {
+            "input": 3,
+            "output": 15
+          }
+        },
+        "duo-chat-opus-4-6": {
+          "cost": {
+            "input": 15,
+            "output": 75
+          }
+        }
       }
+    }
+  },
+  "mcp": {
+    "lazy-mcp": {
+      "type": "local",
+      "command": ["lazy-mcp", "--config", "/Users/skarbek/.config/lazy-mcp/servers.json"],
+      "enabled": true
     }
   }
 }
