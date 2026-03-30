@@ -66,5 +66,18 @@
       "command": ["lazy-mcp", "--config", "/Users/skarbek/.config/lazy-mcp/servers.json"],
       "enabled": true
     }
+  },
+  "agent": {
+    "plan": {
+      "permission": {
+        "edit": {
+          "*": "ask",
+          "~/projects/scratchpad/*.md": "allow"
+        },
+        "external_directory": {
+          "~/projects/scratchpad/**": "allow"
+        }
+      }
+    }
   }
 }
