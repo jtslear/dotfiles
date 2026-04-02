@@ -5,7 +5,7 @@ source linux.sh
 source osx.sh
 
 case ${OSTYPE} in
-"darwin*")
+darwin*)
   setup_osx
   ;;
 "linux-gnu")

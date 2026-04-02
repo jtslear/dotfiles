@@ -115,13 +115,13 @@ function setup_common() {
   fi
 
   debug "Installing mise" "${_GRN}"
-  if [[ ! "$(${HOME}/.local/bin/mise --version)" ]]; then
+  if [[ ! "$("${HOME}"/.local/bin/mise --version)" ]]; then
     local mise_exec="mise_install.sh"
     curl -o "${mise_exec}" https://mise.run
     chmod +x "${mise_exec}"
     ./"${mise_exec}"
     rm "${mise_exec}"
-    eval "$(${HOME}/.local/bin/mise activate zsh)"
+    eval "$("${HOME}"/.local/bin/mise activate zsh)"
   fi
 
   if command -v zsh >/dev/null 2>&1 && [[ "$(basename "$SHELL")" != "zsh" ]]; then
@@ -133,21 +133,21 @@ function setup_common() {
   MY_DOTFILES=$HOME/projects/dotfiles
   TB_DOTFILES=$HOME/projects/dotfiles-thoughtbot
 
-  if [ ! -e $TB_DOTFILES ]; then
-    git clone https://github.com/thoughtbot/dotfiles.git $TB_DOTFILES
+  if [ ! -e "$TB_DOTFILES" ]; then
+    git clone https://github.com/thoughtbot/dotfiles.git "$TB_DOTFILES"
   fi
 
-  pushd $TB_DOTFILES
+  pushd "$TB_DOTFILES" || exit
   git pull
-  popd
+  popd || exit
 
-  pushd $MY_DOTFILES
+  pushd "$MY_DOTFILES" || exit
   git pull
-  popd
+  popd || exit
 
   debug "Installing Dotfiles" "${_GRN}"
-  rcup -f -d $TB_DOTFILES -x gitconfig -x '*.md' -x LICENSE -x hushlogin -x rcrc
-  rcup -f -d $MY_DOTFILES -t config -x README.md -x '*.sh'
+  rcup -f -d "$TB_DOTFILES" -x gitconfig -x '*.md' -x LICENSE -x hushlogin -x rcrc
+  rcup -f -d "$MY_DOTFILES" -t config -x README.md -x '*.sh'
 
   if [[ ! -e ~/.config/nvim ]]; then
     debug "Linking for neovim" "${_GRN}"
