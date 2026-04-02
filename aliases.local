@@ -1,7 +1,8 @@
-alias c='claude'
 alias b='bundle install'
 alias be='bundle exec'
 alias bs='bundle binstubs --path ${PWD}/.bin'
+alias cat='bat'
+alias clera='clear'
 
 alias ls="ls -lahG"
 alias o="opencode"
