@@ -58,6 +58,21 @@
           }
         }
       }
+    },
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama",
+      "options": {
+        "baseURL": "http://192.168.50.70:11434/v1"
+      },
+      "models": {
+        "gemma4:latest": { "name": "gemma4:latest" },
+        "qwen3-coder:latest": { "name": "qwen3-coder:latest" },
+        "devstral:latest": { "name": "devstral:latest" },
+        "mychen76/qwen3_cline_roocode:30b": { "name": "mychen76/qwen3_cline_roocode:30b" },
+        "deepseek-r1:32b": { "name": "deepseek-r1:32b" },
+        "deepseek-v2:16b": { "name": "deepseek-v2:16b" }
+      }
     }
   },
   "mcp": {
