@@ -1,0 +1,1 @@
+launch --cwd ~/projects zsh -c "tmux new-session -A; exec zsh"
