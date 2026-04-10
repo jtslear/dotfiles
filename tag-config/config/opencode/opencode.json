@@ -9,7 +9,8 @@
     "@gitlab/opencode-gitlab-plugin",
     "@gitlab/opencode-gitlab-auth",
     "opencode-agent-memory@0.2.0",
-    "opencode-mermaid-formatter"
+    "opencode-mermaid-formatter",
+    "superpowers@git+https://github.com/obra/superpowers.git"
   ],
   "provider": {
     "gitlab": {

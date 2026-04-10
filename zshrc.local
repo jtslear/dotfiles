@@ -26,7 +26,8 @@ zstyle -e ':completion:*:(ssh|scp|sftp|rsync):hosts' hosts 'reply=(${=${${(f)"$(
 
 unsetopt share_history
 
-fpath=(/usr/local/share/zsh-completions $fpath)
+mkdir -p ~/.config/zsh/completions
+fpath=(/usr/local/share/zsh-completions ~/.config/zsh/completions $fpath)
 
 autoload -Uz compinit
 compinit
@@ -245,4 +246,9 @@ fi
 # zoxide for smarter cd
 if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init zsh)"
+fi
+
+if command -v bat >/dev/null 2>&1; then
+  [[ -f ~/.config/zsh/completions/_bat ]] || bat --completion zsh >~/.config/zsh/completions/_bat
+  compdef cat=bat
 fi
