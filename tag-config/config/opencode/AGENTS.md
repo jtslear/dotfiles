@@ -1,3 +1,5 @@
+Attempt to leverage `ag` over find whenever possible
+
 # Mermaid Chart
 
 Write mermaid charts wrapped in code blocks:

@@ -36,3 +36,5 @@ alias pmvyes="unset SKIP_PMV_AUTOLOAD"
 alias tfmt="tf fmt **/**.tf"
 
 alias ag="ag --hidden"
+
+alias gvim='vim $(git diff --name-only)'

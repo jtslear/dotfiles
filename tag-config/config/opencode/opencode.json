@@ -10,8 +10,6 @@
     "mdns": false
   },
   "permission": {
-    "*": "ask",
-
     "read": {
       "*": "allow",
       "*.env": "deny",
@@ -26,23 +24,7 @@
     "skill": "allow",
 
     "bash": {
-      "*": "ask",
-      "git status*": "allow",
-      "git log*": "allow",
-      "git diff*": "allow",
-      "git show*": "allow",
-      "git branch*": "allow",
-      "grep *": "allow",
-      "cat *": "allow",
-      "head *": "allow",
-      "tail *": "allow",
-      "wc *": "allow",
-      "ls *": "allow",
       "find *": "ask",
-      "echo *": "allow",
-      "which *": "allow",
-      "pwd": "allow",
-      "date": "allow",
       "git commit*": "ask",
       "git commit *": "ask",
       "git push*": "ask",
@@ -52,13 +34,9 @@
       "wget *": "deny"
     },
 
-    "webfetch": "ask",
-    "websearch": "ask",
-
     "external_directory": "ask",
     "doom_loop": "ask",
     "~/.aws/*": "deny",
-    "~/.config/opencode/*": "deny",
     "~/.gnupg/*": "deny",
     "~/.netrc": "deny",
     "~/.ssh/*": "deny"
