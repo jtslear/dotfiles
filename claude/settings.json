@@ -1,0 +1,48 @@
+{
+  "permissions": {
+    "defaultMode": "plan"
+  },
+  "model": "sonnet",
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "ponytail@ponytail": true,
+    "glab@gitlab-skills": true
+  },
+  "extraKnownMarketplaces": {
+    "superpowers-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers-marketplace"
+      }
+    },
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      }
+    },
+    "gitlab-skills": {
+      "source": {
+        "source": "git",
+        "url": "https://gitlab.com/gitlab-org/ai/skills.git"
+      }
+    }
+  },
+  "spinnerVerbs": {
+    "mode": "replace",
+    "verbs": [
+      "Thinking"
+    ]
+  },
+  "theme": "auto",
+  "editorMode": "vim",
+  "verbose": true,
+  "showTurnDuration": false
+}
