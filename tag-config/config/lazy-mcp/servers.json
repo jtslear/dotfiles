@@ -22,6 +22,10 @@
       "name": "grep-app",
       "description": "Search public GitHub repositories",
       "url": "https://mcp.grep.app"
+    },
+    {
+      "name": "orbit",
+      "url": "https://gitlab.com/api/v4/orbit/mcp"
     }
   ]
 }

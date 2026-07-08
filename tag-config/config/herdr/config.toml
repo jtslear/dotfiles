@@ -1,0 +1,17 @@
+# Herdr configuration
+# Managed in dotfiles: ~/projects/dotfiles/tag-config/config/herdr/config.toml
+# Symlinked to: ~/.config/herdr/config.toml
+
+onboarding = false
+
+[keys]
+prefix = "ctrl+q"
+
+[ui]
+show_agent_labels_on_pane_borders = true
+
+[ui.toast]
+delivery = "system"
+
+[ui.sound]
+enabled = false

@@ -123,6 +123,14 @@
   "agent": {
     "plan": {
       "permission": {
+        "bash": {
+          "git fetch*": "allow",
+          "git log*": "allow",
+          "git diff*": "allow",
+          "git status*": "allow",
+          "git branch*": "allow",
+          "git show*": "allow"
+        },
         "edit": {
           "*": "ask",
           "~/projects/scratchpad/*.md": "allow"
