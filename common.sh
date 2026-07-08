@@ -147,7 +147,7 @@ function setup_common() {
 
   debug "Installing Dotfiles" "${_GRN}"
   rcup -f -d "$TB_DOTFILES" -x gitconfig -x '*.md' -x LICENSE -x hushlogin -x rcrc
-  rcup -f -d "$MY_DOTFILES" -t config -x README.md -x '*.sh'
+  rcup -f -d "$MY_DOTFILES" -t config -x README.md -x setup.sh -x common.sh -x linux.sh -x osx.sh
 
   if [[ ! -e ~/.config/nvim ]]; then
     debug "Linking for neovim" "${_GRN}"
