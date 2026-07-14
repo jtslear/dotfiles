@@ -50,14 +50,3 @@ used=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
 if [ -n "$used" ]; then
   printf ' \033[2;35mctx:%.0f%%\033[0m' "$used"
 fi
-
-# Vim mode (bold, color by mode)
-vim_mode=$(echo "$input" | jq -r '.vim.mode // empty')
-if [ -n "$vim_mode" ]; then
-  case "$vim_mode" in
-    INSERT)      printf ' \033[1;32m%s\033[0m' "$vim_mode" ;;
-    NORMAL)      printf ' \033[1;34m%s\033[0m' "$vim_mode" ;;
-    VISUAL*)     printf ' \033[1;35m%s\033[0m' "$vim_mode" ;;
-    *)           printf ' \033[1;37m%s\033[0m' "$vim_mode" ;;
-  esac
-fi

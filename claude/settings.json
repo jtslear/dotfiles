@@ -42,7 +42,6 @@
     ]
   },
   "theme": "auto",
-  "editorMode": "vim",
   "verbose": true,
   "showTurnDuration": false
 }

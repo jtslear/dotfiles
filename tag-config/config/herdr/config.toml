@@ -4,14 +4,22 @@
 
 onboarding = false
 
+[terminal]
+new_cwd = "~/projects"
+
 [keys]
 prefix = "ctrl+q"
 
 [ui]
 show_agent_labels_on_pane_borders = true
 
+agent_panel_sort = "priority"
 [ui.toast]
 delivery = "system"
 
 [ui.sound]
 enabled = false
+
+[theme]
+name = "terminal"
+auto_switch = false
