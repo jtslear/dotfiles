@@ -3,6 +3,7 @@ set-option -g allow-passthrough on
 
 set -s extended-keys on
 set -as terminal-features 'screen-256color:extkeys'
+set -as terminal-features 'xterm-kitty:hyperlinks'
 set -s extended-keys-format csi-u
 
 set-option -g terminal-overrides 'xterm*:smcup@:rmcup@'

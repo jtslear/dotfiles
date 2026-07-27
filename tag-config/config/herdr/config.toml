@@ -10,6 +10,18 @@ new_cwd = "~/projects"
 [keys]
 prefix = "ctrl+q"
 
+# Align with tmux.conf.local muscle memory:
+# - tmux binds prefix+| / prefix+\ for a side-by-side split. The pipe key
+#   isn't in herdr's documented punctuation list (minus/comma/ampersand/
+#   plus/backtick), but `herdr server reload-config` accepted it with no
+#   diagnostics, so it's confirmed working as of herdr 0.7.3.
+split_vertical = ["prefix+v", "prefix+|"]
+# tmux's built-in detach key is prefix+d; herdr defaults to prefix+q.
+detach = ["prefix+q", "prefix+d"]
+# tmux.conf.local binds prefix+ctrl+h / prefix+ctrl+l for prev/next window.
+previous_tab = ["prefix+p", "prefix+ctrl+h"]
+next_tab = ["prefix+n", "prefix+ctrl+l"]
+
 [ui]
 show_agent_labels_on_pane_borders = true
 
