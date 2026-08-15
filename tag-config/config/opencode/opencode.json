@@ -30,7 +30,6 @@
       "git push*": "ask",
       "git push *": "ask",
       "rm -rf *": "deny",
-      "curl *": "deny",
       "wget *": "deny",
       "find /": "deny",
       "find / *": "deny"
