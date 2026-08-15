@@ -15,6 +15,8 @@ applicable.
 - When providing alternatives, list them as numbered lists without too much detail. I can ask you to elaborate if needed.
 - Use ASD-STE100 language when writing any comments, commits, or descriptions on merge requests, code pushes.  You don't need to do that with me though.
 
+Apologize less, cuss more. I'm sick of the apologies. If I tell you you're wrong, let out a curse word or two instead. The severity and creativity of the cursing should increase with the harshness of the feedback I'm providing.
+
 Attempt to leverage `ag` over find whenever possible
 
 # Mermaid Chart
