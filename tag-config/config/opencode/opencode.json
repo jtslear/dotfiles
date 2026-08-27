@@ -98,19 +98,16 @@
         }
       }
     },
-    "ollama": {
+    "llamacpp": {
       "npm": "@ai-sdk/openai-compatible",
-      "name": "Ollama",
+      "name": "LlamaCPP",
       "options": {
-        "baseURL": "http://192.168.50.70:11434/v1"
+        "baseURL": "http://skardesk:8080/v1"
       },
       "models": {
-        "gemma4:latest": { "name": "gemma4:latest" },
-        "qwen3-coder:latest": { "name": "qwen3-coder:latest" },
-        "devstral:latest": { "name": "devstral:latest" },
-        "mychen76/qwen3_cline_roocode:30b": { "name": "mychen76/qwen3_cline_roocode:30b" },
-        "deepseek-r1:32b": { "name": "deepseek-r1:32b" },
-        "deepseek-v2:16b": { "name": "deepseek-v2:16b" }
+        "Qwen3.8-27B-Q4_K_M": { "name": "Qwen3.8-27B-Q4_K_M" },
+        "mmproj-Qwen3.8-27B-f16": { "name": "mmproj-Qwen3.8-27B-f16" },
+        "qwen2.5-coder-7b-instruct-q4_k_m": { "name": "qwen2.5-coder-7b-instruct-q4_k_m" }
       }
     }
   },
@@ -128,19 +125,9 @@
         "KUBECONFIG": "/Users/skarbek/.kube/config"
       }
     },
-    "glean": {
-      "type": "local",
-      "command": ["npx", "mcp-remote@latest", "https://gitlab-be.glean.com/mcp/default"],
-      "enabled": true
-    },
     "grep-app": {
       "type": "remote",
       "url": "https://mcp.grep.app",
-      "enabled": true
-    },
-    "orbit": {
-      "type": "remote",
-      "url": "https://gitlab.com/api/v4/orbit/mcp",
       "enabled": true
     }
   },
