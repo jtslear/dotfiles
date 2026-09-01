@@ -12,7 +12,11 @@ let g:gutentags_ctags_exclude = ['target', 'tmp', 'spec', 'node_modules', 'publi
 
 let g:go_version_warning = 0
 
+let g:airline#extensions#branch#enabled = 0
+let g:airline#extensions#hunks#enabled = 0
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+let g:airline_section_y = ''
 
 if filereadable(expand("~/.vimrc_background"))
   let base16colorspace=256
@@ -30,10 +34,6 @@ vnoremap <leader>P "+P
 nnoremap <leader>y "+y
 vnoremap <leader>y "+y
 nnoremap <leader>Y "+y$
-
-"let python_highlight_all=1
-let g:fugitive_gitlab_domains = ['https://gitlab.com']
-let g:gitlab_api_keys = {'gitlab.com': $GITLAB_RO_TOKEN}
 
 " https://github.com/thoughtbot/dotfiles/issues/656
 augroup ale
