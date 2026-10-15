@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Skip brew's confirmation prompts (install and upgrade) so setup runs unattended
+export HOMEBREW_NO_ASK=1
+
 source common.sh
 source linux.sh
 source osx.sh

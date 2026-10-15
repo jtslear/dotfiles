@@ -53,6 +53,7 @@ function setup_linux {
     debug "Updating packages on Bazzite system..." "${_GRN}"
     brew install \
       the_silver_searcher \
+      herdr \
       rcm \
       vim \
       zsh

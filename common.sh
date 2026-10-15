@@ -101,6 +101,16 @@ function is_fedora_based() {
   fi
 }
 
+function install_herdr() {
+  if command -v herdr >/dev/null 2>&1; then
+    debug "herdr already installed" "${_GRN}"
+    return 0
+  fi
+
+  debug "Installing herdr..." "${_GRN}"
+  curl -fsSL https://herdr.dev/install.sh | sh
+}
+
 function setup_common() {
   debug "Installing base16-shell" "${_GRN}"
   if [[ ! -e ~/.config/base16-shell ]]; then
@@ -112,6 +122,9 @@ function setup_common() {
 
   if [[ "${OSTYPE}" == "linux-gnu" ]]; then
     install_nerd_fonts
+    if ! is_bazzite_based; then
+      install_herdr
+    fi
   fi
 
   debug "Installing mise" "${_GRN}"

@@ -15,15 +15,19 @@ function setup_osx {
   brew install \
     ag \
     awscli \
+    bash \
     bash-completion \
     bat \
     ctags \
     coreutils \
+    gnu-getopt \
     gnupg \
     gpg \
+    herdr \
     hub \
     jq \
     libyaml \
+    make \
     nmap \
     pinentry-mac \
     reattach-to-user-namespace \
@@ -35,8 +39,8 @@ function setup_osx {
 
   debug "Installing Nerd Fonts..." "${_GRN}"
   brew install --cask font-jetbrains-mono-nerd-font
+  brew install --cask font-anonymous-pro
 
-  brew install --cask amethyst
   brew install --cask 1password/tap/1password-cli
 
   debug "Run a brew upgrade..." "${_GRN}"

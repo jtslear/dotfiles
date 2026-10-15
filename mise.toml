@@ -1,4 +1,5 @@
 [tools]
+coder = "latest"
 gcloud = "latest"
 go = "latest"
 kind = "latest"

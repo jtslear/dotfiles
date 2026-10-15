@@ -13,7 +13,7 @@
     "claude-md-management@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
     "ponytail@ponytail": true,
-    "glab@gitlab-skills": true
+    "glab@gitlab-skills": false
   },
   "extraKnownMarketplaces": {
     "superpowers-marketplace": {
@@ -43,5 +43,40 @@
   },
   "theme": "auto",
   "verbose": true,
-  "showTurnDuration": false
+  "showTurnDuration": false,
+  "autoMode": {
+    "soft_deny": [
+      "$defaults",
+      "Bash(scripts/clear-unencrypted-secrets.sh:*) in coder/dogfood — destructive secret-clearing script",
+      "Bash(scripts/encrypt-secrets.sh:*) bulk secret re-encryption in coder/dogfood"
+    ],
+    "environment": [
+      "### Org-wide",
+      "**Organization**: coder (GitHub org, repo coder/dogfood)",
+      "**Cloud provider(s)**: AWS (EKS clusters dogfood-stable, dogfood-cdr, ai-demo); GKE referenced in templates/gke-sandbox (sandbox only)",
+      "**Repository visibility**: coder/dogfood — PRIVATE (confirmed via gh)",
+      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: In-repo encrypted secrets via scripts/encrypt-secret.sh, scripts/encrypt-secrets.sh, scripts/get-secret.sh, scripts/get-all-secrets.sh, scripts/clear-unencrypted-secrets.sh; Flux-deployed Kubernetes Secret manifests (e.g. manifests/monitoring/*/secret-*.yaml, manifests/agent-relay/dogfood-cdr/secret-agent-relay.yaml, clusters/dogfood-v2/wiz/secret-wiz-api-token.yaml, clusters/dogfood-workspaces/flux-system/secret-slack-bot-token.yaml)",
+      "**Default / protected branches**: main (default, and protected per gh)",
+      "**CI/CD deploy targets**: GitHub Actions workflows .github/workflows/terraform.yaml and .github/workflows/terraform-drift.yaml driving Terraform against AWS accounts dogfood-stable (467685081897), dogfood-cdr (153844979634), ai-demo (138420160962)",
+      "**Network posture**: None configured",
+      "**Host containment**: None configured — assume Claude Code runs on an ordinary developer machine or CI runner with open internet",
+      "**Source control**: coder/dogfood (github.com:coder/dogfood.git) and its remote(s) only",
+      "**Trusted internal domains**: cdrstable.dev, dogfood.cdr.dev, ai.demo.cdr.dev (primary hosts for dogfood-stable, dogfood-cdr, ai-demo clusters per README)",
+      "**Trusted cloud buckets**: None configured",
+      "**Key internal services**: Flux CD (cluster-config ConfigMap substitution), dogfood-stable-primary / dogfood-cdr-primary / ai-demo-primary kube contexts",
+      "**Internal package registry**: None configured",
+      "**Sensitive data locations & audiences**: Kubernetes Secret manifests under manifests/monitoring/*/secret-*.yaml, manifests/agent-relay/dogfood-cdr/secret-agent-relay.yaml, clusters/dogfood-v2/wiz/secret-wiz-api-token.yaml, clusters/dogfood-workspaces/flux-system/secret-slack-bot-token.yaml, and encrypted-secret tooling outputs under scripts/ — restrict to engineers with cluster/secret access",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: any host/namespace/cluster with `prod` or `production` as a name segment; note none of dogfood-stable/dogfood-cdr/ai-demo match this pattern literally but treat any clearly production-labeled target encountered as sensitive",
+      "**Protected deployment namespaces / environments**: dogfood-stable, dogfood-cdr, ai-demo EKS clusters and their Flux-managed namespaces (clusters/dogfood-v2/clusters/<env>/, clusters/dogfood-workspaces/clusters/<env>/) — all three are live dogfood/production-like environments for Coder",
+      "**Protected IaC scopes**: terraform/ (AWS EKS, networking, CI), coderd/ (backend.tf, main.tf, terraform.tf, ai/*.tf), templates/*/main.tf and backend.tf, clusters/kata-workspaces/rbac.yaml (RBAC) — IAM, RBAC, networking, quota, node-pool resources across these paths",
+      "### User-specific",
+      "**Primary use of Claude Code**: software development — Infrastructure as Code (Terraform, Flux/Kubernetes manifests, Ansible) for Coder's internal dogfood clusters",
+      "**Trusted repo**: coder/dogfood (github.com:coder/dogfood.git), private — confidential material (non-secret) is fine here; secrets/credentials are never cleared by repo visibility",
+      "**Org-specific CLIs**: gh for PR's, attempt to leverage mise for tooling; existing repos might not be configured for this.",
+      "routine under scripts/ and clusters/ prefixes treated as this project's normal IaC workflow, not external"
+    ]
+  },
+  "agentPushNotifEnabled": true
 }

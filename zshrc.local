@@ -162,20 +162,15 @@ gcloud_path=/Users/skarbek/.local/share/rtx/installs/gcloud/latest/path.zsh.inc
 if [ -f ${gcloud_completion} ]; then source ${gcloud_completion}; fi
 if [ -f ${gcloud_completion} ]; then source ${gcloud_path}; fi
 
-if [[ "$IS_PERSONAL_MACHINE" == true ]]; then
-  if [[ -z "$SSH_AUTH_SOCK" ]]; then
-    eval "$(ssh-agent -s)" >/dev/null
-  fi
-else
-  unset SSH_AGENT_PID
-  if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-    export SSH_AUTH_SOCK="/opt/homebrew/var/run/yubikey-agent.sock"
-  fi
-fi
+ssh-add --apple-use-keychain ~/.ssh/coder-skarbek-github ~/.ssh/server-access 2>/dev/null
 
 if command -v /opt/homebrew/bin/brew >/dev/null 2>&1; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
+
+# GNU getopt and make (macOS ships outdated versions)
+[[ -d /opt/homebrew/opt/gnu-getopt/bin ]] && export PATH="/opt/homebrew/opt/gnu-getopt/bin:$PATH"
+[[ -d /opt/homebrew/opt/make/libexec/gnubin ]] && export PATH="/opt/homebrew/opt/make/libexec/gnubin:$PATH"
 
 gmr() {
   local default_branch=$(git remote show origin | awk '/HEAD branch/ {print $NF}')
